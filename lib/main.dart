@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -56,7 +58,6 @@ class MyHomePage extends StatefulWidget {
  @override
  _MyHomePageState createState() => _MyHomePageState();
 }
-
 class _MyHomePageState extends State<MyHomePage> {
  String apiKey = '';
  String? city;
@@ -68,6 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
  int? country;
  TextEditingController cityController = TextEditingController();
  String? errorMessage;
+
 
  void getWeather() async {
  if (city == null) return;
@@ -96,7 +98,18 @@ class _MyHomePageState extends State<MyHomePage> {
  });
  }
  }
+void _getLastSearchedCity() async {
+ SharedPreferences prefs = await SharedPreferences.getInstance();
+ setState(() {
+ city = prefs.getString('lastSearchedCity');
+ });
+ getWeather();
+}
 
+void _saveLastSearchedCity(String cityName) async {
+ SharedPreferences prefs = await SharedPreferences.getInstance();
+ prefs.setString('lastSearchedCity', cityName);
+}
  Widget getWeatherIcon(String description) {
  if (description.contains('rain')) {
  return Icon(Icons.wb_sunny, size: 128);
@@ -110,6 +123,12 @@ class _MyHomePageState extends State<MyHomePage> {
  return Icon(Icons.wb_sunny, size: 128);
  }
  }
+
+@override
+void initState() {
+ super.initState();
+ _getLastSearchedCity();
+}
 
  @override
  Widget build(BuildContext context) {
@@ -130,12 +149,14 @@ class _MyHomePageState extends State<MyHomePage> {
  borderRadius: BorderRadius.circular(32),
  ),
  ),
+ textCapitalization: TextCapitalization.words,
  ),
  SizedBox(height: 16),
  ElevatedButton(
  onPressed: () {
  setState(() {
  city = cityController.text;
+ _saveLastSearchedCity(city!);
  getWeather();
  });
  },
@@ -145,7 +166,7 @@ class _MyHomePageState extends State<MyHomePage> {
  borderRadius: BorderRadius.circular(32),
  ),
  ),
- ),
+),
  SizedBox(height: 32),
  if (city == null)
  Text('Enter a city name to continue')
