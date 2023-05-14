@@ -64,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
  String? description;
  int? humidity;
  int? pressure;
- int? feels_like;
+ double? feels_like;
  int? country;
  TextEditingController cityController = TextEditingController();
  String? errorMessage;
@@ -181,7 +181,7 @@ class _MyHomePageState extends State<MyHomePage> {
  Text('Pressure: $pressure hPa', style:
  Theme.of(context).textTheme.bodyText1?.copyWith(fontSize:
 32)),
- Text('Feels Like: $feels_like ', style:
+ Text('Feels like: ${feels_like?.round()}°C', style:
  Theme.of(context).textTheme.bodyText1?.copyWith(fontSize:
 32)),
  ],
