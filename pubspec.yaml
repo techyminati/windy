@@ -31,6 +31,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  http: ^0.13.4
+  flutter_dotenv: ^5.0.1
+  geolocator: ^7.3.0
+  flutter_svg: ^0.22.0
+  flutter_bloc: ^8.0.0
+  equatable: ^2.0.0
 
 
   # The following adds the Cupertino Icons font to your application.
