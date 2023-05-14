@@ -112,15 +112,15 @@ void _saveLastSearchedCity(String cityName) async {
 }
  Widget getWeatherIcon(String description) {
  if (description.contains('rain')) {
- return Icon(Icons.wb_sunny, size: 128);
+ return Icon(Icons.wb_sunny, size: 120);
  } else if (description.contains('cloud')) {
- return Icon(Icons.wb_cloudy, size: 128);
+ return Icon(Icons.wb_cloudy, size: 120);
  } else if (description.contains('sun')) {
- return Icon(Icons.wb_sunny, size: 128);
+ return Icon(Icons.wb_sunny, size: 120);
  } else if (description.contains('wind')) {
- return Icon(Icons.toys, size: 128);
+ return Icon(Icons.toys, size: 120);
  } else {
- return Icon(Icons.wb_sunny, size: 128);
+ return Icon(Icons.wb_sunny, size: 120);
  }
  }
 
@@ -175,7 +175,7 @@ void initState() {
  '$city',
  style:
  Theme.of(context).textTheme.headline4?.copyWith(fontSize:
-64),
+52),
  ),
  SizedBox(height:
 32),
@@ -195,16 +195,16 @@ void initState() {
 44),
  ),
  SizedBox(height:
-42),
+32),
  Text('Humidity: $humidity%', style:
  Theme.of(context).textTheme.bodyText1?.copyWith(fontSize:
-32)),
+28)),
  Text('Pressure: $pressure hPa', style:
  Theme.of(context).textTheme.bodyText1?.copyWith(fontSize:
-32)),
+28)),
  Text('Feels like: ${feels_like?.round()}°C', style:
  Theme.of(context).textTheme.bodyText1?.copyWith(fontSize:
-32)),
+28)),
  ],
  if (errorMessage != null)
  Text(
