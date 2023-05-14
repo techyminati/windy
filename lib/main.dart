@@ -64,6 +64,8 @@ class _MyHomePageState extends State<MyHomePage> {
  String? description;
  int? humidity;
  int? pressure;
+ int? feels_like;
+ int? country;
  TextEditingController cityController = TextEditingController();
  String? errorMessage;
 
@@ -79,6 +81,8 @@ class _MyHomePageState extends State<MyHomePage> {
  description = data['weather'][0]['description'];
  humidity = data['main']['humidity'];
  pressure = data['main']['pressure'];
+ feels_like = data['main']['feels_like'];
+ country = data['main']['country'];
  errorMessage = null;
  });
  } else {
@@ -175,6 +179,9 @@ class _MyHomePageState extends State<MyHomePage> {
  Theme.of(context).textTheme.bodyText1?.copyWith(fontSize:
 32)),
  Text('Pressure: $pressure hPa', style:
+ Theme.of(context).textTheme.bodyText1?.copyWith(fontSize:
+32)),
+ Text('Feels Like: $feels_like ', style:
  Theme.of(context).textTheme.bodyText1?.copyWith(fontSize:
 32)),
  ],
