@@ -27,10 +27,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String apiKey = '105d997a8a1977cb138167503eb7afa1';
+  String apiKey = '';
   String city = 'Bhopal';
   double? temperature;
   String? description;
+  int? humidity;
+  int? pressure;
   TextEditingController cityController = TextEditingController();
   String? errorMessage;
 
@@ -49,6 +51,8 @@ class _MyHomePageState extends State<MyHomePage> {
         setState(() {
           temperature = data['main']['temp'];
           description = data['weather'][0]['description'];
+          humidity = data['main']['humidity'];
+          pressure = data['main']['pressure'];
           errorMessage = null;
         });
       } else {
@@ -63,15 +67,28 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  Widget getWeatherIcon(String description) {
+    if (description.contains('rain')) {
+      return Icon(Icons.wb_sunny);
+    } else if (description.contains('cloud')) {
+      return Icon(Icons.wb_cloudy);
+    } else if (description.contains('sun')) {
+      return Icon(Icons.wb_sunny);
+    } else if (description.contains('wind')) {
+      return Icon(Icons.toys);
+    } else {
+      return Icon(Icons.wb_sunny);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -94,6 +111,13 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             SizedBox(height: 20),
             Text(
+              '$city',
+              style: Theme.of(context).textTheme.headline4,
+            ),
+            SizedBox(height: 20),
+            getWeatherIcon(description ?? ''),
+            SizedBox(height: 20),
+            Text(
               '${temperature?.round()}°C',
               style: Theme.of(context).textTheme.headline4,
             ),
@@ -101,6 +125,10 @@ class _MyHomePageState extends State<MyHomePage> {
               '$description',
               style: Theme.of(context).textTheme.headline6,
             ),
+            SizedBox(height: 20),
+            Text('Humidity: $humidity%'),
+            Text('Pressure: $pressure hPa'),
+            Text('Weather Report'),
             if (errorMessage != null)
               Text(
                 '$errorMessage',
