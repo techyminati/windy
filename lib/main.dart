@@ -40,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
     if (city == null) return;
     try {
       http.Response response = await http.get(Uri.parse(
-          'http://api.openweathermap.org/data/2.5/weather?q=$city&appid=$apiKey&units=metric'));
+          'http://api.openweathermap.org/data/2.5/weather?q=${city!.trim()}&appid=$apiKey&units=metric'));
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
         setState(() {
@@ -64,15 +64,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget getWeatherIcon(String description) {
     if (description.contains('rain')) {
-      return Icon(Icons.wb_sunny);
+      return Icon(Icons.wb_sunny, size: 64);
     } else if (description.contains('cloud')) {
-      return Icon(Icons.wb_cloudy);
+      return Icon(Icons.wb_cloudy, size: 64);
     } else if (description.contains('sun')) {
-      return Icon(Icons.wb_sunny);
+      return Icon(Icons.wb_sunny, size: 64);
     } else if (description.contains('wind')) {
-      return Icon(Icons.toys);
+      return Icon(Icons.toys, size: 64);
     } else {
-      return Icon(Icons.wb_sunny);
+      return Icon(Icons.wb_sunny, size: 64);
     }
   }
 
@@ -83,58 +83,72 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: <Widget>[
+              TextField(
                 controller: cityController,
                 decoration: InputDecoration(
                   labelText: 'Enter City',
-                  border: OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(32),
+                  ),
                 ),
               ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  city = cityController.text;
-                  getWeather();
-                });
-              },
-              child: Text('Search'),
-            ),
-            SizedBox(height: 20),
-            if (city == null)
-              Text('Enter a city name to continue')
-            else ...[
-              Text(
-                '$city',
-                style: Theme.of(context).textTheme.headline4,
+              SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    city = cityController.text;
+                    getWeather();
+                  });
+                },
+                child: Text('Search'),
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(32),
+                  ),
+                ),
               ),
-              SizedBox(height: 20),
-              getWeatherIcon(description ?? ''),
-              SizedBox(height: 20),
-              Text(
-                '${temperature?.round()}°C',
-                style: Theme.of(context).textTheme.headline4,
-              ),
-              Text(
-                '$description',
-                style: Theme.of(context).textTheme.headline6,
-              ),
-              SizedBox(height: 20),
-              Text('Humidity: $humidity%'),
-              Text('Pressure: $pressure hPa'),
-              Text('Weather Report'),
+              SizedBox(height: 32),
+              if (city == null)
+                Text('Enter a city name to continue')
+              else ...[
+                Text(
+                  '$city',
+                  style:
+                      Theme.of(context).textTheme.headline4?.copyWith(fontSize: 32),
+                ),
+                SizedBox(height: 32),
+                getWeatherIcon(description ?? ''),
+                SizedBox(height: 32),
+                Text(
+                  '${temperature?.round()}°C',
+                  style:
+                      Theme.of(context).textTheme.headline4?.copyWith(fontSize: 32),
+                ),
+                Text(
+                  '$description',
+                  style:
+                      Theme.of(context).textTheme.headline6?.copyWith(fontSize: 24),
+                ),
+                SizedBox(height: 32),
+                Text('Humidity: $humidity%', style:
+                      Theme.of(context).textTheme.bodyText1?.copyWith(fontSize:20)),
+                Text('Pressure: $pressure hPa', style:
+                      Theme.of(context).textTheme.bodyText1?.copyWith(fontSize:20)),
+                Text('Weather Report', style:
+                      Theme.of(context).textTheme.bodyText1?.copyWith(fontSize:20)),
+              ],
+              if (errorMessage != null)
+                Text(
+                  '$errorMessage',
+                  style:
+                      TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+                ),
             ],
-            if (errorMessage != null)
-              Text(
-                '$errorMessage',
-                style:
-                    TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
-              ),
-          ],
+          ),
         ),
       ),
     );
