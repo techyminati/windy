@@ -8,11 +8,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Weather App',
+      title: 'Windy',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Weather App'),
+      home: MyHomePage(title: 'Windy'),
     );
   }
 }
@@ -28,7 +28,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String apiKey = '';
-  String city = 'Bhopal';
+  String? city;
   double? temperature;
   String? description;
   int? humidity;
@@ -36,13 +36,8 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController cityController = TextEditingController();
   String? errorMessage;
 
-  @override
-  void initState() {
-    super.initState();
-    getWeather();
-  }
-
   void getWeather() async {
+    if (city == null) return;
     try {
       http.Response response = await http.get(Uri.parse(
           'http://api.openweathermap.org/data/2.5/weather?q=$city&appid=$apiKey&units=metric'));
@@ -110,25 +105,29 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text('Search'),
             ),
             SizedBox(height: 20),
-            Text(
-              '$city',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            SizedBox(height: 20),
-            getWeatherIcon(description ?? ''),
-            SizedBox(height: 20),
-            Text(
-              '${temperature?.round()}°C',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            Text(
-              '$description',
-              style: Theme.of(context).textTheme.headline6,
-            ),
-            SizedBox(height: 20),
-            Text('Humidity: $humidity%'),
-            Text('Pressure: $pressure hPa'),
-            Text('Weather Report'),
+            if (city == null)
+              Text('Enter a city name to continue')
+            else ...[
+              Text(
+                '$city',
+                style: Theme.of(context).textTheme.headline4,
+              ),
+              SizedBox(height: 20),
+              getWeatherIcon(description ?? ''),
+              SizedBox(height: 20),
+              Text(
+                '${temperature?.round()}°C',
+                style: Theme.of(context).textTheme.headline4,
+              ),
+              Text(
+                '$description',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              SizedBox(height: 20),
+              Text('Humidity: $humidity%'),
+              Text('Pressure: $pressure hPa'),
+              Text('Weather Report'),
+            ],
             if (errorMessage != null)
               Text(
                 '$errorMessage',
