@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 void main() => runApp(MyApp());
 
+
 class MyApp extends StatelessWidget {
  @override
  Widget build(BuildContext context) {
@@ -19,8 +20,27 @@ class MyApp extends StatelessWidget {
  darkTheme: ThemeData(
  brightness: Brightness.dark,
  primarySwatch: Colors.blue,
+ scaffoldBackgroundColor: Colors.black,
  textTheme: GoogleFonts.questrialTextTheme(
- Theme.of(context).textTheme,
+ Theme.of(context).textTheme.apply(
+ bodyColor: Colors.white,
+ displayColor: Colors.white,
+ ),
+ ),
+ inputDecorationTheme: InputDecorationTheme(
+ border: OutlineInputBorder(
+ borderRadius: BorderRadius.circular(32),
+ borderSide: BorderSide(color: Colors.white),
+ ),
+ enabledBorder: OutlineInputBorder(
+ borderRadius: BorderRadius.circular(32),
+ borderSide: BorderSide(color: Colors.white),
+ ),
+ focusedBorder: OutlineInputBorder(
+ borderRadius: BorderRadius.circular(32),
+ borderSide: BorderSide(color: Colors.white),
+ ),
+ labelStyle: TextStyle(color: Colors.white),
  ),
  ),
  home: MyHomePage(title: 'Windy'),
@@ -75,15 +95,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
  Widget getWeatherIcon(String description) {
  if (description.contains('rain')) {
- return Icon(Icons.wb_sunny, size: 90);
+ return Icon(Icons.wb_sunny, size: 128);
  } else if (description.contains('cloud')) {
- return Icon(Icons.wb_cloudy, size: 90);
+ return Icon(Icons.wb_cloudy, size: 128);
  } else if (description.contains('sun')) {
- return Icon(Icons.wb_sunny, size: 90);
+ return Icon(Icons.wb_sunny, size: 128);
  } else if (description.contains('wind')) {
- return Icon(Icons.toys, size: 90);
+ return Icon(Icons.toys, size: 128);
  } else {
- return Icon(Icons.wb_sunny, size: 90);
+ return Icon(Icons.wb_sunny, size: 128);
  }
  }
 
@@ -130,7 +150,7 @@ class _MyHomePageState extends State<MyHomePage> {
  '$city',
  style:
  Theme.of(context).textTheme.headline4?.copyWith(fontSize:
-32),
+64),
  ),
  SizedBox(height:
 32),
@@ -141,25 +161,22 @@ class _MyHomePageState extends State<MyHomePage> {
  '${temperature?.round()}°C',
  style:
  Theme.of(context).textTheme.headline4?.copyWith(fontSize:
-32),
+58),
  ),
  Text(
  '$description',
  style:
  Theme.of(context).textTheme.headline6?.copyWith(fontSize:
-24),
+44),
  ),
  SizedBox(height:
-32),
- Text('Humidity:$humidity%', style:
+42),
+ Text('Humidity: $humidity%', style:
  Theme.of(context).textTheme.bodyText1?.copyWith(fontSize:
-20)),
- Text('Pressure:$pressure hPa', style:
+32)),
+ Text('Pressure: $pressure hPa', style:
  Theme.of(context).textTheme.bodyText1?.copyWith(fontSize:
-20)),
- Text('Weather Report', style:
- Theme.of(context).textTheme.bodyText1?.copyWith(fontSize:
-20)),
+32)),
  ],
  if (errorMessage != null)
  Text(
