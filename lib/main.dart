@@ -1,105 +1,114 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:windy/weather_bloc.dart';
-import 'package:windy/weather_repository.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load();
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  final WeatherRepository weatherRepository = WeatherRepository();
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Windy',
+      title: 'Flutter Weather App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: BlocProvider(
-        create: (context) => WeatherBloc(weatherRepository: weatherRepository)
-          ..add(GetWeatherData()),
-        child: WeatherPage(),
-      ),
+      home: MyHomePage(title: 'Flutter Weather App'),
     );
   }
 }
 
-class WeatherPage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
+  MyHomePage({Key? key, required this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  String apiKey = '105d997a8a1977cb138167503eb7afa1';
+  String city = 'Bhopal';
+  double? temperature;
+  String? description;
+  TextEditingController cityController = TextEditingController();
+  String? errorMessage;
+
+  @override
+  void initState() {
+    super.initState();
+    getWeather();
+  }
+
+  void getWeather() async {
+    try {
+      http.Response response = await http.get(Uri.parse(
+          'http://api.openweathermap.org/data/2.5/weather?q=$city&appid=$apiKey&units=metric'));
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+        setState(() {
+          temperature = data['main']['temp'];
+          description = data['weather'][0]['description'];
+          errorMessage = null;
+        });
+      } else {
+        setState(() {
+          errorMessage = 'Error: ${response.statusCode}';
+        });
+      }
+    } catch (e) {
+      setState(() {
+        errorMessage = 'Error: $e';
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Windy'),
+        title: Text(widget.title),
       ),
-      body: BlocBuilder<WeatherBloc, WeatherState>(
-        builder: (context, state) {
-          if (state is WeatherInitial) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state is WeatherLoading) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state is WeatherLoaded) {
-            final weatherData = state.weatherData;
-
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    '${weatherData['name']}, ${weatherData['sys']['country']}',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 16),
-                  SvgPicture.network(
-                    'https://openweathermap.org/img/w/${weatherData['weather'][0]['icon']}.png',
-                    height: 100,
-                    width: 100,
-                  ),
-                  SizedBox(height: 16),
-                  Text(
-                    '${weatherData['weather'][0]['description']}',
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
-                  ),
-                  SizedBox(height: 16),
-                  Text(
-                    '${(weatherData['main']['temp'] - 273.15).toStringAsFixed(0)}°C',
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            );
-          } else if (state is WeatherError) {
-            return Center(
-              child: Text(
-                'Error: ${state.error}',
-                style: TextStyle(
-                  fontSize: 18,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: cityController,
+                decoration: InputDecoration(
+                  labelText: 'Enter City',
+                  border: OutlineInputBorder(),
                 ),
               ),
-            );
-          } else {
-            return Container();
-          }
-        },
+            ),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  city = cityController.text;
+                  getWeather();
+                });
+              },
+              child: Text('Search'),
+            ),
+            SizedBox(height: 20),
+            Text(
+              '${temperature?.round()}°C',
+              style: Theme.of(context).textTheme.headline4,
+            ),
+            Text(
+              '$description',
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            if (errorMessage != null)
+              Text(
+                '$errorMessage',
+                style:
+                    TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+              ),
+          ],
+        ),
       ),
     );
   }
