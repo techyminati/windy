@@ -71,6 +71,12 @@ class _MyHomePageState extends State<MyHomePage> {
  TextEditingController cityController = TextEditingController();
  String? errorMessage;
 
+String toTitleCase(String text) {
+  return text
+      .split(' ')
+      .map((word) => word[0].toUpperCase() + word.substring(1))
+      .join(' ');
+}
 
  void getWeather() async {
  if (city == null) return;
@@ -81,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
  var data = jsonDecode(response.body);
  setState(() {
  temperature = data['main']['temp'];
- description = toBeginningOfSentenceCase(data['weather'][0]['description']);
+ description = toTitleCase(data['weather'][0]['description']);
  humidity = data['main']['humidity'];
  pressure = data['main']['pressure'];
  feels_like = data['main']['feels_like'];
