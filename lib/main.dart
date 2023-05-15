@@ -70,6 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
  int? country;
  int? sunrise;
  int? sunset;
+ int? aqi;
  TextEditingController cityController = TextEditingController();
  String? errorMessage;
 
@@ -85,8 +86,18 @@ String toTitleCase(String text) {
  try {
  http.Response response = await http.get(Uri.parse(
  'http://api.openweathermap.org/data/2.5/weather?q=${city!.trim()}&appid=$apiKey&units=metric'));
+ 
  if (response.statusCode == 200) {
  var data = jsonDecode(response.body);
+ http.Response aqiResponse = await http.get(Uri.parse(
+    'http://api.openweathermap.org/data/2.5/air_pollution?lat=${data['coord']['lat']}&lon=${data['coord']['lon']}&appid=$apiKey'));
+
+  if (aqiResponse.statusCode == 200) {
+  var aqiData = jsonDecode(aqiResponse.body);
+  setState(() {
+    aqi = aqiData['list'][0]['main']['aqi'];
+  });
+}
  setState(() {
  temperature = data['main']['temp'];
  description = toTitleCase(data['weather'][0]['description']);
@@ -109,6 +120,7 @@ String toTitleCase(String text) {
  });
  }
  }
+ 
 void _getLastSearchedCity() async {
  SharedPreferences prefs = await SharedPreferences.getInstance();
  setState(() {
@@ -260,6 +272,7 @@ void initState() {
  Text('Feels like: ${feels_like?.round()}°C', style:
  Theme.of(context).textTheme.bodyText1?.copyWith(fontSize:
 28)),
+Text('AQI: $aqi', style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 28)),
  ],
  if (errorMessage != null)
  Text(
