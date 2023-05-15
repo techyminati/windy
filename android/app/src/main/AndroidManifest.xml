@@ -2,7 +2,7 @@
     package="com.example.windy">
    <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="windy"
+        android:label="Windy"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
