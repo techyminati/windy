@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -80,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
  var data = jsonDecode(response.body);
  setState(() {
  temperature = data['main']['temp'];
- description = data['weather'][0]['description'];
+ description = toBeginningOfSentenceCase(data['weather'][0]['description']);
  humidity = data['main']['humidity'];
  pressure = data['main']['pressure'];
  feels_like = data['main']['feels_like'];
