@@ -1,4 +1,4 @@
-package com.example.windy
+package com.techyminati.windy
 
 import io.flutter.embedding.android.FlutterActivity
 
