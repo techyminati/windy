@@ -68,6 +68,8 @@ class _MyHomePageState extends State<MyHomePage> {
  int? pressure;
  double? feels_like;
  int? country;
+ int? sunrise;
+ int? sunset;
  TextEditingController cityController = TextEditingController();
  String? errorMessage;
 
@@ -92,6 +94,8 @@ String toTitleCase(String text) {
  pressure = data['main']['pressure'];
  feels_like = data['main']['feels_like'];
  country = data['main']['country'];
+ sunrise = data['sys']['sunrise'];
+ sunset = data['sys']['sunset'];
  errorMessage = null;
  });
  } else {
@@ -118,16 +122,59 @@ void _saveLastSearchedCity(String cityName) async {
  prefs.setString('lastSearchedCity', cityName);
 }
  Widget getWeatherIcon(String description) {
+  DateTime now = DateTime.now();
+if (now.isAfter(DateTime.fromMillisecondsSinceEpoch(sunrise! * 1000)) &&
+    now.isBefore(DateTime.fromMillisecondsSinceEpoch(sunset! * 1000))) {
+  // It's daytime
+  if (description.contains('sun')) {
+    return Icon(Icons.wb_sunny, size: 120);
+  }
+} else {
+  // It's nighttime
+  if (description.contains('sun')) {
+    return Icon(Icons.brightness_3, size: 120); // This is the moon icon
+  }
+}
  if (description.contains('rain')) {
- return Icon(Icons.wb_sunny, size: 120);
+ return Icon(Icons.umbrella, size: 120);
  } else if (description.contains('cloud')) {
  return Icon(Icons.wb_cloudy, size: 120);
- } else if (description.contains('sun')) {
- return Icon(Icons.wb_sunny, size: 120);
- } else if (description.contains('wind')) {
+ }  else if (description.contains('wind')) {
  return Icon(Icons.toys, size: 120);
- } else {
- return Icon(Icons.wb_sunny, size: 120);
+ } if (description.contains('snow')) {
+  return Icon(Icons.ac_unit, size: 120);
+} else if (description.contains('haze')) {
+  return Icon(Icons.filter_drama, size: 120);
+} else if (description.contains('thunderstorm')) {
+  return Icon(Icons.flash_on, size: 120);
+} else if (description.contains('drizzle')) {
+  return Icon(Icons.grain, size: 120);
+} else if (description.contains('fog')) {
+  return Icon(Icons.dehaze, size: 120);
+} else if (description.contains('mist')) {
+  return Icon(Icons.dehaze, size: 120);
+} else if (description.contains('smoke')) {
+  return Icon(Icons.smoking_rooms, size: 120);
+} else if (description.contains('dust')) {
+  return Icon(Icons.landscape, size: 120);
+} else if (description.contains('sand')) {
+  return Icon(Icons.landscape, size: 120);
+} else if (description.contains('ash')) {
+  return Icon(Icons.landscape, size: 120);
+} else if (description.contains('squall')) {
+  return Icon(Icons.waves, size: 120);
+} else if (description.contains('tornado')) {
+  return Icon(Icons.toys, size: 120);
+}
+  else {
+   DateTime now = DateTime.now();
+if (now.isAfter(DateTime.fromMillisecondsSinceEpoch(sunrise! * 1000)) &&
+    now.isBefore(DateTime.fromMillisecondsSinceEpoch(sunset! * 1000))) {
+  // It's daytime
+    return Icon(Icons.wb_sunny, size: 120);
+} else 
+  // It's nighttime
+    return Icon(Icons.brightness_3, size: 120); // This is the moon icon
  }
  }
 
@@ -178,6 +225,7 @@ void initState() {
  if (city == null)
  Text('Enter a city name to continue')
  else ...[
+  //if (city != null)
  Text(
  '$city',
  style:
