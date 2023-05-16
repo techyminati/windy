@@ -251,11 +251,13 @@ void initState() {
  Theme.of(context).textTheme.headline4?.copyWith(fontSize:
 58),
  ),
- Text(
+ Center(
+ child: Text(
  '$description',
  style:
  Theme.of(context).textTheme.headline6?.copyWith(fontSize:
 44),
+ ),
  ),
  SizedBox(height:
 32),
