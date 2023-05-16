@@ -40,6 +40,7 @@ dependencies:
   google_fonts: ^2.1.0
   shared_preferences: ^2.1.1
   intl: ^0.17.0
+  home_widget: ^0.2.1
 
 
 

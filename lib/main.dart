@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:home_widget/home_widget.dart';
 
 
 void main() => runApp(MyApp());
@@ -74,6 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
  TextEditingController cityController = TextEditingController();
  String? errorMessage;
  bool searchBarVisible = false;
+ Duration animationDuration = Duration(milliseconds: 950);
 
 String toTitleCase(String text) {
   return text
@@ -109,6 +111,15 @@ String toTitleCase(String text) {
  sunrise = data['sys']['sunrise'];
  sunset = data['sys']['sunset'];
  errorMessage = null;
+      HomeWidget.saveWidgetData('temperature', temperature);
+      HomeWidget.saveWidgetData('description', description);
+      HomeWidget.saveWidgetData('humidity', humidity);
+      HomeWidget.saveWidgetData('pressure', pressure);
+      HomeWidget.saveWidgetData('feels_like', feels_like);
+      HomeWidget.saveWidgetData('country', country);
+      HomeWidget.saveWidgetData('sunrise', sunrise);
+      HomeWidget.saveWidgetData('sunset', sunset);
+      HomeWidget.saveWidgetData('sunset', city);
  });
  } else {
  setState(() {
@@ -121,6 +132,7 @@ String toTitleCase(String text) {
  });
  }
  }
+ 
  
 void _getLastSearchedCity() async {
  SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -216,43 +228,50 @@ body: SingleChildScrollView(
       child: Column(
         children: <Widget>[
           if (searchBarVisible) ...[
-            TextField(
-              controller: cityController,
-              decoration: InputDecoration(
-                labelText: 'Enter City',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(32),
-                ),
-              ),
-              textCapitalization: TextCapitalization.words,
-              onSubmitted: (String value) {
-                setState(() {
-                city = value;
-                _saveLastSearchedCity(city!);
-                getWeather();
-                searchBarVisible = false; // hide the search bar
-              });
-              },
-            ),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  city = cityController.text;
-                  _saveLastSearchedCity(city!);
-                  getWeather();
-                  searchBarVisible = false;
-                });
-              },
-              
-              child: Text('Search'),
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(32),
-                ),
-              ),
-            ),
-            SizedBox(height: 32),
+            AnimatedOpacity(
+  opacity: searchBarVisible ? 1.0 : 0.0,
+  duration: animationDuration,
+  child: Column(
+    children: [
+      TextField(
+        controller: cityController,
+        decoration: InputDecoration(
+          labelText: 'Enter City',
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(32),
+          ),
+        ),
+        textCapitalization: TextCapitalization.words,
+        onSubmitted: (String value) {
+          setState(() {
+            city = value;
+            _saveLastSearchedCity(city!);
+            getWeather();
+            searchBarVisible = false; // hide the search bar
+          });
+        },
+      ),
+      SizedBox(height: 16),
+      ElevatedButton(
+        onPressed: () {
+          setState(() {
+            city = cityController.text;
+            _saveLastSearchedCity(city!);
+            getWeather();
+            searchBarVisible = false; // hide the search bar
+          });
+        },
+        child: Text('Search'),
+        style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(32),
+          ),
+        ),
+      ),
+      SizedBox(height: 32),
+    ],
+  ),
+),
           ],
  if (city == null)
  Text('Enter a city name to continue')
@@ -300,7 +319,7 @@ Colors.red, fontWeight:
 FontWeight.bold),
  ),
  ],
- ),
+),
  ),
  ),
  );
