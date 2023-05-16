@@ -206,6 +206,7 @@ void initState() {
             searchBarVisible = true;
           });
         },
+
       ),
     ],
   ),
@@ -224,6 +225,14 @@ body: SingleChildScrollView(
                 ),
               ),
               textCapitalization: TextCapitalization.words,
+              onSubmitted: (String value) {
+                setState(() {
+                city = value;
+                _saveLastSearchedCity(city!);
+                getWeather();
+                searchBarVisible = false; // hide the search bar
+              });
+              },
             ),
             SizedBox(height: 16),
             ElevatedButton(
@@ -235,6 +244,7 @@ body: SingleChildScrollView(
                   searchBarVisible = false;
                 });
               },
+              
               child: Text('Search'),
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
