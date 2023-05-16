@@ -232,6 +232,7 @@ body: SingleChildScrollView(
                   city = cityController.text;
                   _saveLastSearchedCity(city!);
                   getWeather();
+                  searchBarVisible = false;
                 });
               },
               child: Text('Search'),
