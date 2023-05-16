@@ -133,62 +133,58 @@ void _saveLastSearchedCity(String cityName) async {
  SharedPreferences prefs = await SharedPreferences.getInstance();
  prefs.setString('lastSearchedCity', cityName);
 }
- Widget getWeatherIcon(String description) {
-  DateTime now = DateTime.now();
-if (now.isAfter(DateTime.fromMillisecondsSinceEpoch(sunrise! * 1000)) &&
-    now.isBefore(DateTime.fromMillisecondsSinceEpoch(sunset! * 1000))) {
-  // It's daytime
-  if (description.contains('sun')) {
-    return Icon(Icons.wb_sunny, size: 120);
-  }
-} else {
-  // It's nighttime
-  if (description.contains('sun')) {
-    return Icon(Icons.brightness_3, size: 120); // This is the moon icon
+Widget getWeatherIcon(String description) {
+  if (description.contains('rain') || description.contains('moderate rain')) {
+    return Icon(Icons.umbrella, size: 120);
+  } else if (description.contains('Cloud') || description.contains('overcast Clouds') || description.contains('Scattered Clouds')) {
+    return Icon(Icons.wb_cloudy, size: 120);
+  } else if (description.contains('Wind')) {
+    return Icon(Icons.toys, size: 120);
+  } else if (description.contains('Snow')) {
+    return Icon(Icons.ac_unit, size: 120);
+  } else if (description.contains('Haze')) {
+    return Icon(Icons.filter_drama, size: 120);
+  } else if (description.contains('Thunderstorm')) {
+    return Icon(Icons.flash_on, size: 120);
+  } else if (description.contains('Drizzle')) {
+    return Icon(Icons.grain, size: 120);
+  } else if (description.contains('Fog')) {
+    return Icon(Icons.dehaze, size: 120);
+  } else if (description.contains('Mist')) {
+    return Icon(Icons.dehaze, size: 120);
+  } else if (description.contains('Smoke')) {
+    return Icon(Icons.smoking_rooms, size: 120);
+  } else if (description.contains('Dust')) {
+    return Icon(Icons.landscape, size: 120);
+  } else if (description.contains('Sand')) {
+    return Icon(Icons.landscape, size: 120);
+  } else if (description.contains('Ash')) {
+    return Icon(Icons.landscape, size: 120);
+  } else if (description.contains('Squall')) {
+    return Icon(Icons.waves, size: 120);
+  } else if (description.contains('Tornado')) {
+    return Icon(Icons.toys, size: 120);
+  } else if (description.contains('Clear Sky') || description.contains('Sun'))  { // changed from 'sun' to 'clear sky'
+    DateTime now = DateTime.now();
+    if (now.isAfter(DateTime.fromMillisecondsSinceEpoch(sunrise! * 1000)) &&
+        now.isBefore(DateTime.fromMillisecondsSinceEpoch(sunset! * 1000))) {
+      // It's daytime
+      return Icon(Icons.wb_sunny, size: 120);
+    } else {
+      return Icon(Icons.brightness_3, size: 120); // This is the moon icon
+    }
+  } else {
+        DateTime now = DateTime.now();
+    if (now.isAfter(DateTime.fromMillisecondsSinceEpoch(sunrise! * 1000)) &&
+        now.isBefore(DateTime.fromMillisecondsSinceEpoch(sunset! * 1000))) {
+      // It's daytime
+      return Icon(Icons.wb_sunny, size: 120);
+    } else {
+      return Icon(Icons.brightness_3, size: 120); // This is the moon icon
+    }
   }
 }
- if (description.contains('rain')) {
- return Icon(Icons.umbrella, size: 120);
- } else if (description.contains('cloud')) {
- return Icon(Icons.wb_cloudy, size: 120);
- }  else if (description.contains('wind')) {
- return Icon(Icons.toys, size: 120);
- } if (description.contains('snow')) {
-  return Icon(Icons.ac_unit, size: 120);
-} else if (description.contains('haze')) {
-  return Icon(Icons.filter_drama, size: 120);
-} else if (description.contains('thunderstorm')) {
-  return Icon(Icons.flash_on, size: 120);
-} else if (description.contains('drizzle')) {
-  return Icon(Icons.grain, size: 120);
-} else if (description.contains('fog')) {
-  return Icon(Icons.dehaze, size: 120);
-} else if (description.contains('mist')) {
-  return Icon(Icons.dehaze, size: 120);
-} else if (description.contains('smoke')) {
-  return Icon(Icons.smoking_rooms, size: 120);
-} else if (description.contains('dust')) {
-  return Icon(Icons.landscape, size: 120);
-} else if (description.contains('sand')) {
-  return Icon(Icons.landscape, size: 120);
-} else if (description.contains('ash')) {
-  return Icon(Icons.landscape, size: 120);
-} else if (description.contains('squall')) {
-  return Icon(Icons.waves, size: 120);
-} else if (description.contains('tornado')) {
-  return Icon(Icons.toys, size: 120);
-}
-  else {
-   DateTime now = DateTime.now();
-if (now.isAfter(DateTime.fromMillisecondsSinceEpoch(sunrise! * 1000)) &&
-    now.isBefore(DateTime.fromMillisecondsSinceEpoch(sunset! * 1000))) {
-  // It's daytime
-    return Icon(Icons.wb_sunny, size: 120);
-} else 
-  // It's nighttime
-    return Icon(Icons.brightness_3, size: 120); // This is the moon icon
- }
- }
+
 
 @override
 void initState() {
