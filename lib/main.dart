@@ -73,6 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
  int? aqi;
  TextEditingController cityController = TextEditingController();
  String? errorMessage;
+ bool searchBarVisible = false;
 
 String toTitleCase(String text) {
   return text
@@ -195,41 +196,53 @@ void initState() {
  @override
  Widget build(BuildContext context) {
  return Scaffold(
- appBar: AppBar(
- title: Text(widget.title),
- ),
- body: SingleChildScrollView(
- child: Padding(
- padding: const EdgeInsets.all(16.0),
- child: Column(
- children: <Widget>[
- TextField(
- controller: cityController,
- decoration: InputDecoration(
- labelText: 'Enter City',
- border: OutlineInputBorder(
- borderRadius: BorderRadius.circular(32),
- ),
- ),
- textCapitalization: TextCapitalization.words,
- ),
- SizedBox(height: 16),
- ElevatedButton(
- onPressed: () {
- setState(() {
- city = cityController.text;
- _saveLastSearchedCity(city!);
- getWeather();
- });
- },
- child: Text('Search'),
- style: ElevatedButton.styleFrom(
- shape: RoundedRectangleBorder(
- borderRadius: BorderRadius.circular(32),
- ),
- ),
-),
- SizedBox(height: 32),
+  appBar: AppBar(
+    title: Text(widget.title),
+    actions: [
+      IconButton(
+        icon: Icon(Icons.search),
+        onPressed: () {
+          setState(() {
+            searchBarVisible = true;
+          });
+        },
+      ),
+    ],
+  ),
+body: SingleChildScrollView(
+    child: Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: <Widget>[
+          if (searchBarVisible) ...[
+            TextField(
+              controller: cityController,
+              decoration: InputDecoration(
+                labelText: 'Enter City',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(32),
+                ),
+              ),
+              textCapitalization: TextCapitalization.words,
+            ),
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  city = cityController.text;
+                  _saveLastSearchedCity(city!);
+                  getWeather();
+                });
+              },
+              child: Text('Search'),
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(32),
+                ),
+              ),
+            ),
+            SizedBox(height: 32),
+          ],
  if (city == null)
  Text('Enter a city name to continue')
  else ...[
