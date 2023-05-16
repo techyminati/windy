@@ -248,28 +248,23 @@ void initState() {
  Text(
  '${temperature?.round()}°C',
  style:
- Theme.of(context).textTheme.headline4?.copyWith(fontSize:
-58),
+ Theme.of(context).textTheme.headline4?.copyWith(fontSize:58),
  ),
  Center(
  child: Text(
  '$description',
  style:
- Theme.of(context).textTheme.headline6?.copyWith(fontSize:
-44),
+ Theme.of(context).textTheme.headline6?.copyWith(fontSize:44),
+textAlign: TextAlign.center,
  ),
  ),
- SizedBox(height:
-32),
+ SizedBox(height:32),
  Text('Humidity: $humidity%', style:
- Theme.of(context).textTheme.bodyText1?.copyWith(fontSize:
-28)),
+ Theme.of(context).textTheme.bodyText1?.copyWith(fontSize:28)),
  Text('Pressure: $pressure hPa', style:
- Theme.of(context).textTheme.bodyText1?.copyWith(fontSize:
-28)),
+ Theme.of(context).textTheme.bodyText1?.copyWith(fontSize:28)),
  Text('Feels like: ${feels_like?.round()}°C', style:
- Theme.of(context).textTheme.bodyText1?.copyWith(fontSize:
-28)),
+ Theme.of(context).textTheme.bodyText1?.copyWith(fontSize:28)),
 Text('AQI: $aqi', style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 28)),
  ],
  if (errorMessage != null)
