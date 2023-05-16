@@ -147,7 +147,7 @@ void _saveLastSearchedCity(String cityName) async {
  prefs.setString('lastSearchedCity', cityName);
 }
 Widget getWeatherIcon(String description) {
-  if (description.contains('rain') || description.contains('moderate rain')) {
+  if (description.contains('Rain') || description.contains('Moderate Rain') || description.contains('Light Rain') )  {
     return Icon(Icons.umbrella, size: 120);
   } else if (description.contains('Cloud') || description.contains('overcast Clouds') || description.contains('Scattered Clouds')) {
     return Icon(Icons.wb_cloudy, size: 120);
