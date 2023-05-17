@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:home_widget/home_widget.dart';
+import 'package:windy/about.dart';
 
 
 void main() => runApp(MyApp());
@@ -226,6 +227,35 @@ void initState() {
 
       ),
     ],
+  ),
+    drawer: Drawer(
+    child: ListView(
+      padding: EdgeInsets.zero,
+      children: <Widget>[
+        DrawerHeader(
+          child: Text('Menu'),
+          decoration: BoxDecoration(
+            color: Colors.blue,
+          ),
+        ),
+ListTile(
+          title: Text('Settings'),
+          onTap: () {
+            // Open the settings page
+            // ...
+          },
+        ),
+        ListTile(
+          title: Text('About'),
+          onTap: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => AboutPage()),
+    );
+          },
+        ),
+      ],
+    ),
   ),
 body: RefreshIndicator(
   onRefresh: _handleRefresh,
