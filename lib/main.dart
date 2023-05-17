@@ -84,6 +84,7 @@ String toTitleCase(String text) {
       .join(' ');
 }
 
+
  void getWeather() async {
  if (city == null) return;
  try {
@@ -133,7 +134,11 @@ String toTitleCase(String text) {
  }
  }
  
- 
+ Future<void> _handleRefresh() async {
+  // Refresh the weather data
+  getWeather();
+}
+
 void _getLastSearchedCity() async {
  SharedPreferences prefs = await SharedPreferences.getInstance();
  setState(() {
@@ -222,7 +227,10 @@ void initState() {
       ),
     ],
   ),
-body: SingleChildScrollView(
+body: RefreshIndicator(
+  onRefresh: _handleRefresh,
+  child: SingleChildScrollView(
+    physics: AlwaysScrollableScrollPhysics(),
     child: Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -322,6 +330,7 @@ FontWeight.bold),
 ),
  ),
  ),
+),
  );
  }
 }
