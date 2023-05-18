@@ -98,17 +98,12 @@ String toTitleCase(String text) {
   }
 
  void getWeather() async {
-  try {
     if (city == null || city!.trim().isEmpty) {
       setState(() {
         errorMessage = 'Please enter a city name';
       });
       return;
-    }
-    // rest of the code
-  } catch (e) {
-    print(e); // print the exception to the console
-  }
+  } 
  try {
  http.Response response = await http.get(Uri.parse(
  'http://api.openweathermap.org/data/2.5/weather?q=${city!.trim()}&appid=$apiKey&units=metric'));
@@ -213,15 +208,9 @@ Widget getWeatherIcon(String description) {
     } else {
       return Icon(Icons.brightness_3, size: 120); // This is the moon icon
     }
-  } else {
-        DateTime now = DateTime.now();
-    if (now.isAfter(DateTime.fromMillisecondsSinceEpoch(sunrise! * 1000)) &&
-        now.isBefore(DateTime.fromMillisecondsSinceEpoch(sunset! * 1000))) {
-      // It's daytime
-      return Icon(Icons.wb_sunny, size: 120);
-    } else {
-      return Icon(Icons.brightness_3, size: 120); // This is the moon icon
-    }
+  }
+  else {
+    return Icon(Icons.wb_sunny, size: 120);
   }
 }
 
