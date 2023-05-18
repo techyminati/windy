@@ -100,7 +100,7 @@ String toTitleCase(String text) {
  void getWeather() async {
     if (city == null || city!.trim().isEmpty) {
       setState(() {
-        errorMessage = 'Please enter a city name';
+       // errorMessage = 'Please enter a city name';
       });
       return;
   } 
@@ -224,6 +224,7 @@ void initState() {
 
  @override
  Widget build(BuildContext context) {
+    if (city != null && city!.isNotEmpty) {
  
  return Scaffold(
   appBar: AppBar(
@@ -375,6 +376,22 @@ FontWeight.bold),
 ),
 
  );
- 
+   } else {
+    // display a message asking the user to enter a city name
+        return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.search, size: 64),
+          SizedBox(height: 16),
+          Text(
+            'Enter a city name to get started',
+            style: Theme.of(context).textTheme.headline6,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
  }
 }
