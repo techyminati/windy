@@ -10,7 +10,6 @@ import 'package:windy/about.dart';
 
 void main() => runApp(MyApp());
 
-
 class MyApp extends StatelessWidget {
  @override
  Widget build(BuildContext context) {
@@ -55,11 +54,16 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
  MyHomePage({Key? key, required this.title}) : super(key: key);
+  static final GlobalKey<_MyHomePageState> _key = GlobalKey<_MyHomePageState>();
 
+  static _MyHomePageState? of(BuildContext context) => _key.currentState;
+
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
  final String title;
 
- @override
- _MyHomePageState createState() => _MyHomePageState();
+ // @override
+ // _MyHomePageState createState() => _MyHomePageState();
 }
 class _MyHomePageState extends State<MyHomePage> {
  String apiKey = '';
@@ -85,9 +89,26 @@ String toTitleCase(String text) {
       .join(' ');
 }
 
+  ThemeMode _themeMode = ThemeMode.system;
+
+  void setThemeMode(ThemeMode themeMode) {
+    setState(() {
+      _themeMode = themeMode;
+    });
+  }
 
  void getWeather() async {
- if (city == null) return;
+  try {
+    if (city == null || city!.trim().isEmpty) {
+      setState(() {
+        errorMessage = 'Please enter a city name';
+      });
+      return;
+    }
+    // rest of the code
+  } catch (e) {
+    print(e); // print the exception to the console
+  }
  try {
  http.Response response = await http.get(Uri.parse(
  'http://api.openweathermap.org/data/2.5/weather?q=${city!.trim()}&appid=$apiKey&units=metric'));
@@ -211,8 +232,10 @@ void initState() {
  _getLastSearchedCity();
 }
 
+
  @override
  Widget build(BuildContext context) {
+ 
  return Scaffold(
   appBar: AppBar(
     title: Text(widget.title),
@@ -361,6 +384,8 @@ FontWeight.bold),
  ),
  ),
 ),
+
  );
+ 
  }
 }
