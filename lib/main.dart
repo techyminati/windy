@@ -224,7 +224,7 @@ void initState() {
 
  @override
  Widget build(BuildContext context) {
-    if (city != null && city!.isNotEmpty) {
+   // if (city != null && city!.isNotEmpty) {
  
  return Scaffold(
   appBar: AppBar(
@@ -324,10 +324,7 @@ body: RefreshIndicator(
   ),
 ),
           ],
- if (city == null)
- Text('Enter a city name to continue')
- else ...[
-  //if (city != null)
+              if (city != null && city!.isNotEmpty) ...[
  Text(
  '$city',
  style:
@@ -360,7 +357,22 @@ textAlign: TextAlign.center,
  Text('Feels like: ${feels_like?.round()}°C', style:
  Theme.of(context).textTheme.bodyText1?.copyWith(fontSize:28)),
 Text('AQI: $aqi', style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 28)),
- ],
+] else ...[
+                // display a message asking the user to enter a city name
+                Center(
+                  child:
+Column(mainAxisAlignment:
+MainAxisAlignment.center, children:[
+                    Icon(Icons.search, size:
+64),
+                    SizedBox(height:
+16),
+                    Text('Enter a city name to get started', style:
+Theme.of(context).textTheme.headline6, textAlign:
+TextAlign.center),
+                  ]),
+                ),
+              ],
  if (errorMessage != null)
  Text(
  '$errorMessage',
@@ -376,22 +388,5 @@ FontWeight.bold),
 ),
 
  );
-   } else {
-    // display a message asking the user to enter a city name
-        return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.search, size: 64),
-          SizedBox(height: 16),
-          Text(
-            'Enter a city name to get started',
-            style: Theme.of(context).textTheme.headline6,
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    );
   }
  }
-}
