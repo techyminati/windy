@@ -370,7 +370,7 @@ MainAxisAlignment.center, children:[
 120),
                     SizedBox(height:
 16),
-                    Text('Enter a city name to get started', style:
+                    Text('Enter a valid city name to get started', style:
 Theme.of(context).textTheme.headline6, textAlign:
 TextAlign.center),
                   ]),
