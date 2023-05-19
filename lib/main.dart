@@ -133,7 +133,7 @@ String toTitleCase(String text) {
  country = data['main']['country'];
  sunrise = data['sys']['sunrise'];
  sunset = data['sys']['sunset'];
- name = data['sys']['name'];
+ name = data['name'];
  lat = data['coord']['lat'];
  lon = data['coord']['lon'];
  errorMessage = null;
