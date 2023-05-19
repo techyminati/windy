@@ -23,6 +23,13 @@ class _ForecastPageState extends State<ForecastPage> {
   String apiKey = '105d997a8a1977cb138167503eb7afa1';
   List<dynamic> forecastData = [];
 
+  String toTitleCase(String text) {
+  return text
+      .split(' ')
+      .map((word) => word[0].toUpperCase() + word.substring(1))
+      .join(' ');
+}
+
   @override
   void initState() {
     super.initState();
@@ -97,8 +104,18 @@ Widget build(BuildContext context) {
         var date =
             DateTime.fromMillisecondsSinceEpoch(dayData['dt'] * 1000);
         var temperature = dayData['temp']['day'].round();
-        var description = dayData['weather'][0]['description'];
+        var description = toTitleCase(dayData['weather'][0]['description']);
 
+
+        String dayLabel;
+        if (index == 0) {
+          dayLabel = 'Today';
+        } else if (index == 1) {
+          dayLabel = 'Tomorrow';
+        } else {
+          dayLabel = DateFormat('EEEE').format(date);
+        }
+        
         return Card(
           margin: EdgeInsets.all(8),
           child: Padding(
@@ -107,7 +124,7 @@ Widget build(BuildContext context) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '${DateFormat('EEEE').format(date)}',
+                  dayLabel,
                   style: Theme.of(context).textTheme.headline6,
                 ),
                 SizedBox(height: 8),
