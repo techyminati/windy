@@ -5,11 +5,13 @@ import 'dart:convert';
 class ForecastPage extends StatefulWidget {
   final double? lat;
   final double? lon;
+  final String? apiKey;
 
   const ForecastPage({
     Key? key,
     required this.lat,
     required this.lon,
+    required this.apiKey,
   }) : super(key: key);
 
   @override
@@ -17,7 +19,7 @@ class ForecastPage extends StatefulWidget {
 }
 
 class _ForecastPageState extends State<ForecastPage> {
-  String apiKey = '';
+  String? apiKey;
   List<dynamic> forecastData = [];
 
   @override
