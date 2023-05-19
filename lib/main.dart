@@ -77,10 +77,12 @@ class _MyHomePageState extends State<MyHomePage> {
  int? sunrise;
  int? sunset;
  int? aqi;
+ String? name;
  TextEditingController cityController = TextEditingController();
  String? errorMessage;
  bool searchBarVisible = false;
  Duration animationDuration = Duration(milliseconds: 950);
+ // GlobalKey<AnimatedIconState> _weatherIconKey = GlobalKey();
 
 String toTitleCase(String text) {
   return text
@@ -128,6 +130,7 @@ String toTitleCase(String text) {
  country = data['main']['country'];
  sunrise = data['sys']['sunrise'];
  sunset = data['sys']['sunset'];
+ name = data['sys']['name'];
  errorMessage = null;
       HomeWidget.saveWidgetData('temperature', temperature);
       HomeWidget.saveWidgetData('description', description);
@@ -137,7 +140,7 @@ String toTitleCase(String text) {
       HomeWidget.saveWidgetData('country', country);
       HomeWidget.saveWidgetData('sunrise', sunrise);
       HomeWidget.saveWidgetData('sunset', sunset);
-      HomeWidget.saveWidgetData('sunset', city);
+      HomeWidget.saveWidgetData('city', city);
  });
  } else {
  setState(() {
@@ -324,9 +327,9 @@ body: RefreshIndicator(
   ),
 ),
           ],
-              if (city != null && city!.isNotEmpty) ...[
+              if (city != null && city!.isNotEmpty && name!= null && name!.isNotEmpty ) ...[
  Text(
- '$city',
+ '$name',
  style:
  Theme.of(context).textTheme.headline4?.copyWith(fontSize:
 52),
@@ -364,7 +367,7 @@ Text('AQI: $aqi', style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSiz
 Column(mainAxisAlignment:
 MainAxisAlignment.center, children:[
                     Icon(Icons.search, size:
-64),
+120),
                     SizedBox(height:
 16),
                     Text('Enter a city name to get started', style:
