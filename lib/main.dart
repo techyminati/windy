@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:windy/about.dart';
+import 'package:windy/forecast.dart';
 
 
 void main() => runApp(MyApp());
@@ -78,6 +79,8 @@ class _MyHomePageState extends State<MyHomePage> {
  int? sunset;
  int? aqi;
  String? name;
+ double? lat;
+ double? lon;
  TextEditingController cityController = TextEditingController();
  String? errorMessage;
  bool searchBarVisible = false;
@@ -131,6 +134,8 @@ String toTitleCase(String text) {
  sunrise = data['sys']['sunrise'];
  sunset = data['sys']['sunset'];
  name = data['sys']['name'];
+ lat = data['coord']['lat'];
+ lon = data['coord']['lon'];
  errorMessage = null;
       HomeWidget.saveWidgetData('temperature', temperature);
       HomeWidget.saveWidgetData('description', description);
@@ -253,6 +258,20 @@ void initState() {
           decoration: BoxDecoration(
             color: Colors.blue,
           ),
+        ),
+      ListTile(
+          title: Text('7-Day Weather Forecast'),
+          onTap: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ForecastPage(
+          lat: lat,
+          lon: lon,
+        ),
+      ),
+    );
+          },
         ),
 ListTile(
           title: Text('Settings'),
