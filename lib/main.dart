@@ -81,11 +81,24 @@ class _MyHomePageState extends State<MyHomePage> {
  String? name;
  double? lat;
  double? lon;
+ int? cloudCoverage;
  TextEditingController cityController = TextEditingController();
  String? errorMessage;
  bool searchBarVisible = false;
+ double? windSpeed;
+ int? windDirection;
  Duration animationDuration = Duration(milliseconds: 950);
  // GlobalKey<AnimatedIconState> _weatherIconKey = GlobalKey();
+
+String getCardinalDirection(int? deg) {
+    if (deg != null) {
+      final directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+      final index = ((deg + 22.5) / 45).floor() % 8;
+      return directions[index];
+    } else {
+      return '';
+    }
+  }
 
 String toTitleCase(String text) {
   return text
@@ -136,6 +149,11 @@ String toTitleCase(String text) {
  name = data['name'];
  lat = data['coord']['lat'];
  lon = data['coord']['lon'];
+ windSpeed = data['wind']['speed'];
+ windDirection = data['wind']['deg'];
+cloudCoverage = data['clouds']['all'];
+
+ 
  errorMessage = null;
       HomeWidget.saveWidgetData('temperature', temperature);
       HomeWidget.saveWidgetData('description', description);
@@ -424,6 +442,44 @@ FontWeight.bold)),],
 ),),))
 
                 ]),
+                Row(
+  children: [
+    Expanded(
+      child: Card(
+        margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text('Wind speed', style: Theme.of(context).textTheme.headline6),
+              SizedBox(height: 8),
+              Text('${windSpeed} m/s', style: Theme.of(context).textTheme.headline5?.copyWith(fontWeight: FontWeight.bold)),
+              SizedBox(height: 8),
+              Text('Direction: ${getCardinalDirection(windDirection)}', style:
+Theme.of(context).textTheme.headline6),
+            ],
+          ),
+        ),
+      ),
+    ),
+    Expanded(
+      child:
+Card(margin:
+EdgeInsets.symmetric(horizontal:
+8, vertical:
+8),child:
+Padding(padding:
+EdgeInsets.all(16),child:
+Column(crossAxisAlignment:
+CrossAxisAlignment.center,children:[
+Text('Cloud coverage',style:
+Theme.of(context).textTheme.headline6),SizedBox(height:
+8),Text('$cloudCoverage%',style:
+Theme.of(context).textTheme.headline5?.copyWith(fontWeight:
+FontWeight.bold)),],),),))
+  ],
+),
           Row(
   children: [
     Expanded(
