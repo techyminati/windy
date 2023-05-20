@@ -463,7 +463,7 @@ FontWeight.bold)),],
               Text('Winds (${getCardinalDirection(windDirection)})', style: Theme.of(context).textTheme.headline6),
               SizedBox(height: 8),
               Text('${(windSpeed! * 3.6).round()} km/h', style: Theme.of(context).textTheme.headline5?.copyWith(fontWeight: FontWeight.bold)),
-              SizedBox(height: 8),
+              //SizedBox(height: 8),
              // Text('Direction: ${getCardinalDirection(windDirection)}', style:Theme.of(context).textTheme.headline6),
             ],
           ),
@@ -473,9 +473,8 @@ FontWeight.bold)),],
     Expanded(
       child:
 Card(margin:
-EdgeInsets.symmetric(horizontal:
-8, vertical:
-8),child:
+EdgeInsets.symmetric(horizontal:8, vertical:8),
+child:
 Padding(padding:
 EdgeInsets.all(16),child:
 Column(crossAxisAlignment:
