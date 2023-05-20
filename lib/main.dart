@@ -276,50 +276,44 @@ Widget build(BuildContext context) {
         ),
       ],
     ),
-    drawer: Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          DrawerHeader(
-            child: Text('Menu'),
-            decoration: BoxDecoration(
-              color: Colors.blue,
-            ),
-          ),
-          ListTile(
-            title: Text('7-Day Weather Forecast'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ForecastPage(
-                    lat: lat,
-                    lon: lon,
-                    apiKey: apiKey,
-                  ),
-                ),
-              );
-            },
-          ),
-         /* ListTile(
-            title: Text('Settings'),
-            onTap: () {
-              // Open the settings page
-              // ...
-            },
-          ), */
-          ListTile(
-            title: Text('About'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AboutPage()),
-              );
-            },
-          ),
-        ],
+drawer: Drawer(
+  child: ListView(
+    padding: EdgeInsets.zero,
+    children: <Widget>[
+      DrawerHeader(
+        child: Text('Menu', style: TextStyle(fontSize: 24)),
+        decoration: BoxDecoration(
+          color: Colors.blue,
+        ),
       ),
-    ),
+      ListTile(
+        title: Text('7-Day Weather Forecast', style: TextStyle(fontSize: 18)),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ForecastPage(
+                lat: lat,
+                lon: lon,
+                apiKey: apiKey,
+              ),
+            ),
+          );
+        },
+      ),
+      ListTile(
+        title: Text('About', style: TextStyle(fontSize: 18)),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AboutPage()),
+          );
+        },
+      ),
+    ],
+  ),
+),
+
     body: RefreshIndicator(
       onRefresh: _handleRefresh,
       child: SingleChildScrollView(
