@@ -420,8 +420,54 @@ Text('AQI',style:
 Theme.of(context).textTheme.headline6),SizedBox(height: 
 8),Text('$aqi',style:
 Theme.of(context).textTheme.headline5?.copyWith(fontWeight:
-FontWeight.bold)),],),),))
-                ])
+FontWeight.bold)),],
+),),))
+
+                ]),
+          Row(
+  children: [
+    Expanded(
+      child: Card(
+        margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(Icons.wb_sunny),
+              SizedBox(height: 8),
+              Text('Sunrise', style: Theme.of(context).textTheme.headline6),
+              SizedBox(height: 8),
+              Text(DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch(sunrise! * 1000)), style: Theme.of(context).textTheme.headline5?.copyWith(fontWeight: FontWeight.bold)),
+            ],
+          ),
+        ),
+      ),
+    ),
+    Expanded(
+      child: Card(
+        margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(Icons.brightness_3),
+              SizedBox(height: 8),
+              Text('Sunset', style: Theme.of(context).textTheme.headline6),
+              SizedBox(height: 8),
+              Text(DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch(sunset! * 1000)), style:
+Theme.of(context).textTheme.headline5?.copyWith(fontWeight:
+FontWeight.bold)),
+            ],
+          ),
+        ),
+      ),
+    ),
+  ],
+)
+
+                
               ] else ...[
                 // display a message asking the user to enter a city name
                 Center(child:
