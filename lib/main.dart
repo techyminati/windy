@@ -230,186 +230,223 @@ void initState() {
 }
 
 
- @override
- Widget build(BuildContext context) {
-   // if (city != null && city!.isNotEmpty) {
- 
- return Scaffold(
-  appBar: AppBar(
-    title: Text(widget.title),
-    actions: [
-      IconButton(
-        icon: Icon(Icons.search),
-        onPressed: () {
-          setState(() {
-            searchBarVisible = true;
-          });
-        },
-
-      ),
-    ],
-  ),
-    drawer: Drawer(
-    child: ListView(
-      padding: EdgeInsets.zero,
-      children: <Widget>[
-        DrawerHeader(
-          child: Text('Menu'),
-          decoration: BoxDecoration(
-            color: Colors.blue,
-          ),
-        ),
-      ListTile(
-          title: Text('7-Day Weather Forecast'),
-          onTap: () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ForecastPage(
-          lat: lat,
-          lon: lon,
-          apiKey: apiKey,
-        ),
-      ),
-    );
-          },
-        ),
-ListTile(
-          title: Text('Settings'),
-          onTap: () {
-            // Open the settings page
-            // ...
-          },
-        ),
-        ListTile(
-          title: Text('About'),
-          onTap: () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => AboutPage()),
-    );
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: Text(widget.title),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.search),
+          onPressed: () {
+            setState(() {
+              searchBarVisible = true;
+            });
           },
         ),
       ],
     ),
-  ),
-body: RefreshIndicator(
-  onRefresh: _handleRefresh,
-  child: SingleChildScrollView(
-    physics: AlwaysScrollableScrollPhysics(),
-    child: Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
+    drawer: Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
         children: <Widget>[
-          if (searchBarVisible) ...[
-            AnimatedOpacity(
-  opacity: searchBarVisible ? 1.0 : 0.0,
-  duration: animationDuration,
-  child: Column(
-    children: [
-      TextField(
-        controller: cityController,
-        decoration: InputDecoration(
-          labelText: 'Enter City',
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(32),
+          DrawerHeader(
+            child: Text('Menu'),
+            decoration: BoxDecoration(
+              color: Colors.blue,
+            ),
           ),
-        ),
-        textCapitalization: TextCapitalization.words,
-        onSubmitted: (String value) {
-          setState(() {
-            city = value;
-            _saveLastSearchedCity(city!);
-            getWeather();
-            searchBarVisible = false; // hide the search bar
-          });
-        },
-      ),
-      SizedBox(height: 16),
-      ElevatedButton(
-        onPressed: () {
-          setState(() {
-            city = cityController.text;
-            _saveLastSearchedCity(city!);
-            getWeather();
-            searchBarVisible = false; // hide the search bar
-          });
-        },
-        child: Text('Search'),
-        style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(32),
+          ListTile(
+            title: Text('7-Day Weather Forecast'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ForecastPage(
+                    lat: lat,
+                    lon: lon,
+                    apiKey: apiKey,
+                  ),
+                ),
+              );
+            },
           ),
-        ),
+          ListTile(
+            title: Text('Settings'),
+            onTap: () {
+              // Open the settings page
+              // ...
+            },
+          ),
+          ListTile(
+            title: Text('About'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AboutPage()),
+              );
+            },
+          ),
+        ],
       ),
-      SizedBox(height: 32),
-    ],
-  ),
-),
-          ],
-              if (city != null && city!.isNotEmpty && name!= null && name!.isNotEmpty ) ...[
- Text(
- '$name',
- style:
- Theme.of(context).textTheme.headline4?.copyWith(fontSize:
-52),
- ),
- SizedBox(height:
-32),
- getWeatherIcon(description ?? ''),
- SizedBox(height:
-32),
- Text(
- '${temperature?.round()}°C',
- style:
- Theme.of(context).textTheme.headline4?.copyWith(fontSize:58),
- ),
- Center(
- child: Text(
- '$description',
- style:
- Theme.of(context).textTheme.headline6?.copyWith(fontSize:44),
-textAlign: TextAlign.center,
- ),
- ),
- SizedBox(height:32),
- Text('Humidity: $humidity%', style:
- Theme.of(context).textTheme.bodyText1?.copyWith(fontSize:28)),
- Text('Pressure: $pressure hPa', style:
- Theme.of(context).textTheme.bodyText1?.copyWith(fontSize:28)),
- Text('Feels like: ${feels_like?.round()}°C', style:
- Theme.of(context).textTheme.bodyText1?.copyWith(fontSize:28)),
-Text('AQI: $aqi', style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 28)),
-] else ...[
-                // display a message asking the user to enter a city name
-                Center(
-                  child:
-Column(mainAxisAlignment:
-MainAxisAlignment.center, children:[
-                    Icon(Icons.search, size:
-120),
-                    SizedBox(height:
+    ),
+    body: RefreshIndicator(
+      onRefresh: _handleRefresh,
+      child: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: <Widget>[
+              if (searchBarVisible) ...[
+                AnimatedOpacity(
+                  opacity: searchBarVisible ? 1.0 : 0.0,
+                  duration: animationDuration,
+                  child: Column(
+                    children: [
+                      TextField(
+                        controller: cityController,
+                        decoration:
+                            InputDecoration(labelText:
+'Enter City', border:
+OutlineInputBorder(borderRadius:
+BorderRadius.circular(32))),
+                        textCapitalization:
+TextCapitalization.words,
+                        onSubmitted:
+(String value) {
+                          setState(() {
+                            city = value;
+                            _saveLastSearchedCity(city!);
+                            getWeather();
+                            searchBarVisible =
+false; // hide the search bar
+                          });
+                        },
+                      ),
+                      SizedBox(height:
 16),
-                    Text('Enter a valid city name to get started', style:
-Theme.of(context).textTheme.headline6, textAlign:
-TextAlign.center),
-                  ]),
+                      ElevatedButton(
+                        onPressed:
+() {
+                          setState(() {
+                            city = cityController.text;
+                            _saveLastSearchedCity(city!);
+                            getWeather();
+                            searchBarVisible =
+false; // hide the search bar
+                          });
+                        },
+                        child:
+Text('Search'),
+                        style:
+ElevatedButton.styleFrom(shape:
+RoundedRectangleBorder(borderRadius:
+BorderRadius.circular(32))),
+                      ),
+                      SizedBox(height:
+32),
+                    ],
+                  ),
                 ),
               ],
- if (errorMessage != null)
- Text(
- '$errorMessage',
- style:
- TextStyle(color:
+              if (city != null && city!.isNotEmpty && name != null && name!.isNotEmpty) ...[
+                Text('$name', style:
+Theme.of(context).textTheme.headline4?.copyWith(fontSize:
+52)),
+                SizedBox(height:
+32),
+                getWeatherIcon(description ?? ''),
+                SizedBox(height:
+32),
+                Text('${temperature?.round()}°C', style:
+Theme.of(context).textTheme.headline4?.copyWith(fontSize:
+58)),
+                Center(child:
+Text('$description', style:
+Theme.of(context).textTheme.headline6?.copyWith(fontSize:
+44), textAlign:
+TextAlign.center)),
+SizedBox(height: 22), 
+                Row(children:[
+                  Expanded(child:
+Card(margin:
+EdgeInsets.all(8), 
+child:
+Padding(padding:
+EdgeInsets.all(16), child:
+Column(crossAxisAlignment:
+CrossAxisAlignment.center, children:[
+Text('Humidity', style:
+Theme.of(context).textTheme.headline6),
+SizedBox(height:
+8),
+Text('$humidity%', style:
+Theme.of(context).textTheme.headline5?.copyWith(fontWeight:
+FontWeight.bold)),
+],),),),),
+                  Expanded(child:
+Card(margin: EdgeInsets.all(8),child: 
+Padding(padding: EdgeInsets.all(16),child:
+Column(crossAxisAlignment:
+CrossAxisAlignment.center,children:[
+Text('Pressure',style:
+Theme.of(context).textTheme.headline6),SizedBox(height:
+8),Text('$pressure hPa',style:
+Theme.of(context).textTheme.headline5?.copyWith(fontWeight:
+FontWeight.bold)),],),),),)
+                ]),
+                Row(children:[
+                  Expanded(child:
+Card(margin:
+EdgeInsets.all(8),child:
+Padding(padding:
+EdgeInsets.all(16),child:
+Column(crossAxisAlignment:
+CrossAxisAlignment.center,children:[
+Text('Feels like',style:
+Theme.of(context).textTheme.headline6),SizedBox(height:
+8),Text('${feels_like?.round()}°C',style:
+Theme.of(context).textTheme.headline5?.copyWith(fontWeight:
+FontWeight.bold)),],),),),),
+                  Expanded(child:
+Card(margin:
+EdgeInsets.all(8),child:
+Padding(padding: 
+EdgeInsets.all(16),child: 
+Column(crossAxisAlignment: 
+CrossAxisAlignment.center,children:[
+Text('AQI',style: 
+Theme.of(context).textTheme.headline6),SizedBox(height: 
+8),Text('$aqi',style:
+Theme.of(context).textTheme.headline5?.copyWith(fontWeight:
+FontWeight.bold)),],),),))
+                ])
+              ] else ...[
+                // display a message asking the user to enter a city name
+                Center(child:
+Column(mainAxisAlignment:
+MainAxisAlignment.center, children:[
+Icon(Icons.search, size:
+120),
+SizedBox(height:
+16),
+Text('Enter a valid city name to get started', style:
+Theme.of(context).textTheme.headline6, textAlign:
+TextAlign.center),
+]),)
+              ],
+              if (errorMessage != null)
+                Text('$errorMessage', style:
+TextStyle(color:
 Colors.red, fontWeight:
-FontWeight.bold),
- ),
- ],
-),
- ),
- ),
-),
+FontWeight.bold))
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
+}
 
- );
-  }
  }
