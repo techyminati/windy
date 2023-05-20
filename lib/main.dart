@@ -480,7 +480,7 @@ Padding(padding:
 EdgeInsets.all(16),child:
 Column(crossAxisAlignment:
 CrossAxisAlignment.center,children:[
-Text('Cloud Coverage',style:
+Text('Cloudiness',style:
 Theme.of(context).textTheme.headline6),SizedBox(height:
 8),Text('$cloudCoverage%',style:
 Theme.of(context).textTheme.headline5?.copyWith(fontWeight:
