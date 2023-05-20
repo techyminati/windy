@@ -61,7 +61,7 @@ class MyHomePage extends StatefulWidget {
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
- final String title;
+ late final String title;
 
  // @override
  // _MyHomePageState createState() => _MyHomePageState();
@@ -88,6 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
  double? windSpeed;
  int? windDirection;
  Duration animationDuration = Duration(milliseconds: 950);
+ final ScrollController _scrollController = ScrollController();
  // GlobalKey<AnimatedIconState> _weatherIconKey = GlobalKey();
 
 String getCardinalDirection(int? deg) {
@@ -243,8 +244,19 @@ Widget getWeatherIcon(String description) {
 
 @override
 void initState() {
- super.initState();
- _getLastSearchedCity();
+  super.initState();
+  _getLastSearchedCity();
+  _scrollController.addListener(() {
+    if (_scrollController.offset > 200) {
+      setState(() {
+        widget.title = name ?? 'Windy';
+      });
+    } else {
+      setState(() {
+        widget.title = 'Windy';
+      });
+    }
+  });
 }
 
 
@@ -289,13 +301,13 @@ Widget build(BuildContext context) {
               );
             },
           ),
-          ListTile(
+         /* ListTile(
             title: Text('Settings'),
             onTap: () {
               // Open the settings page
               // ...
             },
-          ),
+          ), */
           ListTile(
             title: Text('About'),
             onTap: () {
@@ -311,6 +323,7 @@ Widget build(BuildContext context) {
     body: RefreshIndicator(
       onRefresh: _handleRefresh,
       child: SingleChildScrollView(
+        controller: _scrollController,
         physics: AlwaysScrollableScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -452,12 +465,11 @@ FontWeight.bold)),],
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text('Wind speed', style: Theme.of(context).textTheme.headline6),
+              Text('Winds (${getCardinalDirection(windDirection)})', style: Theme.of(context).textTheme.headline6),
               SizedBox(height: 8),
-              Text('${windSpeed} m/s', style: Theme.of(context).textTheme.headline5?.copyWith(fontWeight: FontWeight.bold)),
+              Text('${(windSpeed! * 3.6).round()} km/h', style: Theme.of(context).textTheme.headline5?.copyWith(fontWeight: FontWeight.bold)),
               SizedBox(height: 8),
-              Text('Direction: ${getCardinalDirection(windDirection)}', style:
-Theme.of(context).textTheme.headline6),
+             // Text('Direction: ${getCardinalDirection(windDirection)}', style:Theme.of(context).textTheme.headline6),
             ],
           ),
         ),
@@ -473,7 +485,7 @@ Padding(padding:
 EdgeInsets.all(16),child:
 Column(crossAxisAlignment:
 CrossAxisAlignment.center,children:[
-Text('Cloud coverage',style:
+Text('Cloud Coverage',style:
 Theme.of(context).textTheme.headline6),SizedBox(height:
 8),Text('$cloudCoverage%',style:
 Theme.of(context).textTheme.headline5?.copyWith(fontWeight:
