@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
+import 'package:weather_icons/weather_icons.dart';
 
 class ForecastPage extends StatefulWidget {
   final double? lat;
@@ -53,44 +54,47 @@ class _ForecastPageState extends State<ForecastPage> {
       // Handle error
     }
   }
+
 Widget getWeatherIcon(String description) {
-  if (description.contains('Rain') || description.contains('Moderate Rain') || description.contains('Light Rain') )  {
-    return Icon(Icons.umbrella, size: 120);
+
+  if (description.contains('Rain') || description.contains('Moderate Rain') || description.contains('Light Rain')) {
+    return BoxedIcon(WeatherIcons.rain, size: 90);
   } else if (description.contains('Cloud') || description.contains('overcast Clouds') || description.contains('Scattered Clouds')) {
-    return Icon(Icons.wb_cloudy, size: 120);
+    return BoxedIcon(WeatherIcons.day_cloudy, size: 90);
   } else if (description.contains('Wind')) {
-    return Icon(Icons.toys, size: 120);
+    return BoxedIcon(WeatherIcons.strong_wind, size: 90);
   } else if (description.contains('Snow')) {
-    return Icon(Icons.ac_unit, size: 120);
+    return BoxedIcon(WeatherIcons.snow, size: 90);
   } else if (description.contains('Haze')) {
-    return Icon(Icons.filter_drama, size: 120);
+    return BoxedIcon(WeatherIcons.day_haze, size: 90);
   } else if (description.contains('Thunderstorm')) {
-    return Icon(Icons.flash_on, size: 120);
+    return BoxedIcon(WeatherIcons.thunderstorm, size: 90);
   } else if (description.contains('Drizzle')) {
-    return Icon(Icons.grain, size: 120);
+    return BoxedIcon(WeatherIcons.sprinkle, size: 90);
   } else if (description.contains('Fog')) {
-    return Icon(Icons.dehaze, size: 120);
+    return BoxedIcon(WeatherIcons.day_fog, size: 90);
   } else if (description.contains('Mist')) {
-    return Icon(Icons.dehaze, size: 120);
+    return BoxedIcon(WeatherIcons.day_fog, size: 90);
   } else if (description.contains('Smoke')) {
-    return Icon(Icons.smoking_rooms, size: 120);
+    return BoxedIcon(WeatherIcons.smoke, size: 90);
   } else if (description.contains('Dust')) {
-    return Icon(Icons.landscape, size: 120);
+    return BoxedIcon(WeatherIcons.dust, size: 90);
   } else if (description.contains('Sand')) {
-    return Icon(Icons.landscape, size: 120);
+    return BoxedIcon(WeatherIcons.sandstorm, size: 90);
   } else if (description.contains('Ash')) {
-    return Icon(Icons.landscape, size: 120);
+    return BoxedIcon(WeatherIcons.volcano, size: 90);
   } else if (description.contains('Squall')) {
-    return Icon(Icons.waves, size: 120);
+    return BoxedIcon(WeatherIcons.strong_wind, size: 90);
   } else if (description.contains('Tornado')) {
-    return Icon(Icons.toys, size: 120);
-  } else if (description.contains('Clear Sky') || description.contains('Sun'))  { // changed from 'sun' to 'clear sky'
-      return Icon(Icons.wb_sunny, size: 120);
-  }
-  else {
-    return Icon(Icons.wb_sunny, size: 120);
-  }
+    return BoxedIcon(WeatherIcons.tornado, size: 90);
+  } else if (description.contains('Clear Sky') || description.contains('Sun')) { // changed from 'sun' to 'clear sky'
+    return BoxedIcon(WeatherIcons.day_sunny, size: 90);
+   }
+   else {
+     return BoxedIcon(WeatherIcons.day_sunny_overcast, size: 90);
+   }
 }
+
   @override
 Widget build(BuildContext context) {
   return Scaffold(

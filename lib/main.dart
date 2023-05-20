@@ -5,8 +5,10 @@ import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:home_widget/home_widget.dart';
+import 'package:weather_icons/weather_icons.dart';
 import 'package:windy/about.dart';
 import 'package:windy/forecast.dart';
+
 
 
 void main() => runApp(MyApp());
@@ -195,51 +197,50 @@ void _saveLastSearchedCity(String cityName) async {
  SharedPreferences prefs = await SharedPreferences.getInstance();
  prefs.setString('lastSearchedCity', cityName);
 }
+
 Widget getWeatherIcon(String description) {
-  if (description.contains('Rain') || description.contains('Moderate Rain') || description.contains('Light Rain') )  {
-    return Icon(Icons.umbrella, size: 120);
+  DateTime now = DateTime.now();
+  bool isDaytime = now.isAfter(DateTime.fromMillisecondsSinceEpoch(sunrise! * 1000)) &&
+      now.isBefore(DateTime.fromMillisecondsSinceEpoch(sunset! * 1000));
+
+  if (description.contains('Rain') || description.contains('Moderate Rain') || description.contains('Light Rain')) {
+    return BoxedIcon(WeatherIcons.rain, size: 127);
   } else if (description.contains('Cloud') || description.contains('overcast Clouds') || description.contains('Scattered Clouds')) {
-    return Icon(Icons.wb_cloudy, size: 120);
+    return BoxedIcon(isDaytime ? WeatherIcons.day_cloudy : WeatherIcons.night_alt_cloudy, size: 127);
   } else if (description.contains('Wind')) {
-    return Icon(Icons.toys, size: 120);
+    return BoxedIcon(WeatherIcons.strong_wind, size: 127);
   } else if (description.contains('Snow')) {
-    return Icon(Icons.ac_unit, size: 120);
+    return BoxedIcon(WeatherIcons.snow, size: 127);
   } else if (description.contains('Haze')) {
-    return Icon(Icons.filter_drama, size: 120);
+    return BoxedIcon(isDaytime ? WeatherIcons.day_haze : WeatherIcons.night_fog, size: 127);
   } else if (description.contains('Thunderstorm')) {
-    return Icon(Icons.flash_on, size: 120);
+    return BoxedIcon(WeatherIcons.thunderstorm, size: 127);
   } else if (description.contains('Drizzle')) {
-    return Icon(Icons.grain, size: 120);
+    return BoxedIcon(WeatherIcons.sprinkle, size: 127);
   } else if (description.contains('Fog')) {
-    return Icon(Icons.dehaze, size: 120);
+    return BoxedIcon(isDaytime ? WeatherIcons.day_fog : WeatherIcons.night_fog, size: 127);
   } else if (description.contains('Mist')) {
-    return Icon(Icons.dehaze, size: 120);
+    return BoxedIcon(isDaytime ? WeatherIcons.day_fog : WeatherIcons.night_fog, size: 127);
   } else if (description.contains('Smoke')) {
-    return Icon(Icons.smoking_rooms, size: 120);
+    return BoxedIcon(WeatherIcons.smoke, size: 127);
   } else if (description.contains('Dust')) {
-    return Icon(Icons.landscape, size: 120);
+    return BoxedIcon(WeatherIcons.dust, size: 127);
   } else if (description.contains('Sand')) {
-    return Icon(Icons.landscape, size: 120);
+    return BoxedIcon(WeatherIcons.sandstorm, size: 127);
   } else if (description.contains('Ash')) {
-    return Icon(Icons.landscape, size: 120);
+    return BoxedIcon(WeatherIcons.volcano, size: 127);
   } else if (description.contains('Squall')) {
-    return Icon(Icons.waves, size: 120);
+    return BoxedIcon(WeatherIcons.strong_wind, size: 127);
   } else if (description.contains('Tornado')) {
-    return Icon(Icons.toys, size: 120);
-  } else if (description.contains('Clear Sky') || description.contains('Sun'))  { // changed from 'sun' to 'clear sky'
-    DateTime now = DateTime.now();
-    if (now.isAfter(DateTime.fromMillisecondsSinceEpoch(sunrise! * 1000)) &&
-        now.isBefore(DateTime.fromMillisecondsSinceEpoch(sunset! * 1000))) {
-      // It's daytime
-      return Icon(Icons.wb_sunny, size: 120);
-    } else {
-      return Icon(Icons.brightness_3, size: 120); // This is the moon icon
-    }
-  }
-  else {
-    return Icon(Icons.wb_sunny, size: 120);
-  }
+    return BoxedIcon(WeatherIcons.tornado, size: 127);
+  } else if (description.contains('Clear Sky') || description.contains('Sun')) { // changed from 'sun' to 'clear sky'
+    return BoxedIcon(isDaytime ? WeatherIcons.day_sunny : WeatherIcons.night_clear, size: 127);
+   }
+   else {
+     return BoxedIcon(isDaytime ? WeatherIcons.day_sunny_overcast : WeatherIcons.night_alt_partly_cloudy, size: 127);
+   }
 }
+
 
 
 @override

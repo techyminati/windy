@@ -41,6 +41,7 @@ dependencies:
   shared_preferences: ^2.1.1
   intl: ^0.17.0
   home_widget: ^0.2.1
+  weather_icons: ^3.0.0-nullsafety.x
 
 
 
