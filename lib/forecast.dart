@@ -99,7 +99,11 @@ Widget getWeatherIcon(String description) {
 Widget build(BuildContext context) {
   return Scaffold(
     appBar: AppBar(
-      title: Text('7-day forecast'),
+      title: Text('7-day weather forecast'),
+      foregroundColor: Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(bottom: Radius.circular(16))),
+      elevation: 0,
+      backgroundColor: Colors.transparent,
     ),
     body: ListView.builder(
       itemCount: forecastData.length,

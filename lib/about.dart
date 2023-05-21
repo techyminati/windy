@@ -10,6 +10,10 @@ class AboutPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+      foregroundColor: Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(bottom: Radius.circular(16))),
+      elevation: 0,
+      backgroundColor: Colors.transparent,
         title: Text('About'),
       ),
       body: Center(
