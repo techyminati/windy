@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
  return MaterialApp(
  title: 'Windy',
  // themeMode: MyHomePage._key.currentState?._themeMode,
+ 
  theme: ThemeData.from(
   colorScheme: ColorScheme.light(),
   
@@ -72,8 +73,6 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
  late final String title;
 
- // @override
- // _MyHomePageState createState() => _MyHomePageState();
 }
 class _MyHomePageState extends State<MyHomePage> {
  String apiKey = '';
@@ -105,6 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
  Duration animationDuration = Duration(milliseconds: 950);
  final ScrollController _scrollController = ScrollController();
  // GlobalKey<AnimatedIconState> _weatherIconKey = GlobalKey();
+
 
 String getCardinalDirection(int? deg) {
     if (deg != null) {
@@ -141,13 +141,18 @@ Future<void> getLocation() async {
 
   _locationData = await location.getLocation();
 }
-void updateWeatherWithCurrentLocation() {
+void updateWeatherWithCurrentLocation() async {
   if (_locationData != null) {
     setState(() {
       latitude = _locationData!.latitude;
       longitude = _locationData!.longitude;
     });
-    getWeather();
+    await getWeather();
+    _saveLastSearchedCity(name!);
+    latitude = null;
+    longitude = null;
+   // city = name;
+
   }
 }
 
@@ -161,15 +166,21 @@ String toTitleCase(String text) {
 
   ThemeMode _themeMode = ThemeMode.system;
 
+  void _updateThemeMode(ThemeMode themeMode) {
+    setState(() {
+      _themeMode = themeMode;
+    });
+  }
+
   void setThemeMode(ThemeMode themeMode) {
     setState(() {
       _themeMode = themeMode;
     });
   }
 
- void getWeather() async {
+ Future<void> getWeather() async {
   
-  /*  if (latitude != null && longitude != null) {
+    if (latitude != null && longitude != null) {
     // Use the user's current location
     try {
       http.Response response = await http.get(Uri.parse(
@@ -202,7 +213,8 @@ String toTitleCase(String text) {
  cloudCoverage = data['clouds']['all'];
  highTemp = data['main']['temp_max']; 
  lowTemp = data['main']['temp_min'];
-
+ city = name;
+_saveLastSearchedCity(name!);
  
  errorMessage = null;
  });
@@ -218,7 +230,7 @@ String toTitleCase(String text) {
       });
     }
   } 
-  else */ if (city == null || city!.trim().isEmpty) {
+  else  if (city == null || city!.trim().isEmpty) {
       setState(() {
        // errorMessage = 'Please enter a city name';
       });
@@ -258,7 +270,7 @@ String toTitleCase(String text) {
  lowTemp = data['main']['temp_min'];
  // latitude = lat;
   // longitude = lon;
-
+_saveLastSearchedCity(name!);
  
  errorMessage = null;
  });
@@ -368,7 +380,7 @@ Widget build(BuildContext context) {
       backgroundColor: Colors.transparent,
       elevation: 0,
         actions: [
-     /*IconButton(
+     IconButton(
       icon: Icon(Icons.gps_fixed),
       onPressed: () async {
         await getLocation();
@@ -376,7 +388,7 @@ Widget build(BuildContext context) {
         name = null;
         updateWeatherWithCurrentLocation();
       },
-    ), */
+    ), 
         IconButton(
           icon: Icon(Icons.search),
           onPressed: () {
@@ -449,7 +461,7 @@ decoration: BoxDecoration(
       setThemeMode(ThemeMode.light);
     }
   },
-),*/
+), */
 
       ListTile(
         title: Text('About', style: TextStyle(fontSize: 18)),
@@ -495,7 +507,7 @@ TextCapitalization.words,
 (String value) {
                           setState(() {
                             city = value;
-                            _saveLastSearchedCity(city!);
+                           // _saveLastSearchedCity(city!);
                             getWeather();
                             searchBarVisible =false; // hide the search bar
                             name = null;
@@ -509,7 +521,7 @@ TextCapitalization.words,
 () {
                           setState(() {
                             city = cityController.text;
-                            _saveLastSearchedCity(city!);
+                          //  _saveLastSearchedCity(city!);
                             getWeather();
                             searchBarVisible =false; // hide the search bar
                             name = null;
