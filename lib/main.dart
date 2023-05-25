@@ -7,6 +7,7 @@ import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:weather_icons/weather_icons.dart';
+import 'package:flutter/services.dart';
 import 'package:windy/about.dart';
 import 'package:windy/forecast.dart';
 
@@ -20,8 +21,10 @@ class MyApp extends StatelessWidget {
  Widget build(BuildContext context) {
  return MaterialApp(
  title: 'Windy',
+ // themeMode: MyHomePage._key.currentState?._themeMode,
  theme: ThemeData.from(
   colorScheme: ColorScheme.light(),
+  
  // primarySwatch: Colors.blue,
  textTheme: GoogleFonts.questrialTextTheme(
  Theme.of(context).textTheme,
@@ -89,6 +92,10 @@ class _MyHomePageState extends State<MyHomePage> {
  String? name;
  double? lat;
  double? lon;
+ double? latitude;
+ double? longitude;
+ int? rsps;
+ 
  int? cloudCoverage;
  TextEditingController cityController = TextEditingController();
  String? errorMessage;
@@ -134,6 +141,15 @@ Future<void> getLocation() async {
 
   _locationData = await location.getLocation();
 }
+void updateWeatherWithCurrentLocation() {
+  if (_locationData != null) {
+    setState(() {
+      latitude = _locationData!.latitude;
+      longitude = _locationData!.longitude;
+    });
+    getWeather();
+  }
+}
 
 
 String toTitleCase(String text) {
@@ -152,7 +168,57 @@ String toTitleCase(String text) {
   }
 
  void getWeather() async {
-    if (city == null || city!.trim().isEmpty) {
+  
+  /*  if (latitude != null && longitude != null) {
+    // Use the user's current location
+    try {
+      http.Response response = await http.get(Uri.parse(
+          'http://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey&units=metric'));
+           if (response.statusCode == 200) {
+ var data = jsonDecode(response.body);
+ http.Response aqiResponse = await http.get(Uri.parse(
+    'http://api.openweathermap.org/data/2.5/air_pollution?lat=${data['coord']['lat']}&lon=${data['coord']['lon']}&appid=$apiKey'));
+
+  if (aqiResponse.statusCode == 200) {
+  var aqiData = jsonDecode(aqiResponse.body);
+  setState(() {
+    aqi = aqiData['list'][0]['main']['aqi'];
+  });
+}
+ setState(() {
+ temperature = data['main']['temp'];
+ description = toTitleCase(data['weather'][0]['description']);
+ humidity = data['main']['humidity'];
+ pressure = data['main']['pressure'];
+ feels_like = data['main']['feels_like'];
+ country = data['main']['country'];
+ sunrise = data['sys']['sunrise'];
+ sunset = data['sys']['sunset'];
+ name = data['name'];
+ lat = data['coord']['lat'];
+ lon = data['coord']['lon'];
+ windSpeed = data['wind']['speed'];
+ windDirection = data['wind']['deg'];
+ cloudCoverage = data['clouds']['all'];
+ highTemp = data['main']['temp_max']; 
+ lowTemp = data['main']['temp_min'];
+
+ 
+ errorMessage = null;
+ });
+ } else {
+ setState(() {
+ errorMessage = 'Error: ${response.statusCode}';
+ });}
+          
+          
+    } catch (e) {
+      setState(() {
+        errorMessage = 'Error: $e';
+      });
+    }
+  } 
+  else */ if (city == null || city!.trim().isEmpty) {
       setState(() {
        // errorMessage = 'Please enter a city name';
       });
@@ -190,21 +256,15 @@ String toTitleCase(String text) {
  cloudCoverage = data['clouds']['all'];
  highTemp = data['main']['temp_max']; 
  lowTemp = data['main']['temp_min'];
+ // latitude = lat;
+  // longitude = lon;
 
  
  errorMessage = null;
-      HomeWidget.saveWidgetData('temperature', temperature);
-      HomeWidget.saveWidgetData('description', description);
-      HomeWidget.saveWidgetData('humidity', humidity);
-      HomeWidget.saveWidgetData('pressure', pressure);
-      HomeWidget.saveWidgetData('feels_like', feels_like);
-      HomeWidget.saveWidgetData('country', country);
-      HomeWidget.saveWidgetData('sunrise', sunrise);
-      HomeWidget.saveWidgetData('sunset', sunset);
-      HomeWidget.saveWidgetData('city', city);
  });
  } else {
  setState(() {
+rsps = response.statusCode;
  errorMessage = 'Error: ${response.statusCode}';
  });
  }
@@ -302,16 +362,28 @@ Widget build(BuildContext context) {
          // extendBodyBehindAppBar: true,
     appBar: AppBar(
       title: Text(widget.title),
+      // systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.transparent),
       foregroundColor: Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(bottom: Radius.circular(16))),
       backgroundColor: Colors.transparent,
       elevation: 0,
-      actions: [
+        actions: [
+     /*IconButton(
+      icon: Icon(Icons.gps_fixed),
+      onPressed: () async {
+        await getLocation();
+       // city = null;
+        name = null;
+        updateWeatherWithCurrentLocation();
+      },
+    ), */
         IconButton(
           icon: Icon(Icons.search),
           onPressed: () {
             setState(() {
               searchBarVisible = true;
+             // latitude = null;
+              // longitude = null;
             });
           },
         ),
@@ -366,6 +438,19 @@ decoration: BoxDecoration(
           );
         },
       ),
+      /* ListTile(
+  title: Text('Switch to Light/Dark Mode', style: TextStyle(fontSize: 18)),
+  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+  leading: Icon(Icons.brightness_6),
+  onTap: () {
+    if (_themeMode == ThemeMode.light) {
+      setThemeMode(ThemeMode.dark);
+    } else {
+      setThemeMode(ThemeMode.light);
+    }
+  },
+),*/
+
       ListTile(
         title: Text('About', style: TextStyle(fontSize: 18)),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -412,8 +497,8 @@ TextCapitalization.words,
                             city = value;
                             _saveLastSearchedCity(city!);
                             getWeather();
-                            searchBarVisible =
-false; // hide the search bar
+                            searchBarVisible =false; // hide the search bar
+                            name = null;
                           });
                         },
                       ),
@@ -426,8 +511,8 @@ false; // hide the search bar
                             city = cityController.text;
                             _saveLastSearchedCity(city!);
                             getWeather();
-                            searchBarVisible =
-false; // hide the search bar
+                            searchBarVisible =false; // hide the search bar
+                            name = null;
                           });
                         },
                         child:
@@ -443,7 +528,7 @@ BorderRadius.circular(32))),
                   ),
                 ),
               ],
-              if (city != null && city!.isNotEmpty && name != null && name!.isNotEmpty) ...[
+              if (city != null && city!.isNotEmpty && name != null && name!.isNotEmpty && rsps != '404') ...[
                 Text('$name', style:
 Theme.of(context).textTheme.headline4?.copyWith(fontSize:
 52)),
