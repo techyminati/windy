@@ -135,6 +135,19 @@ Future<void> getLocation() async {
   if (_permissionGranted == PermissionStatus.denied) {
     _permissionGranted = await location.requestPermission();
     if (_permissionGranted != PermissionStatus.granted) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Location Permission Required'),
+          content: Text('Please grant location permission to use this feature or enter location manually.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('OK'),
+            ),
+          ],
+        ),
+      );
       return;
     }
   }
