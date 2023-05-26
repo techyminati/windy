@@ -8,6 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:weather_icons/weather_icons.dart';
 import 'package:flutter/services.dart';
+import 'package:connectivity/connectivity.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:windy/about.dart';
 import 'package:windy/forecast.dart';
 
@@ -119,6 +121,7 @@ String getCardinalDirection(int? deg) {
 Location location = new Location();
 
 bool _serviceEnabled=false;
+ bool isLoading = true;
 PermissionStatus? _permissionGranted;
 LocationData? _locationData;
 
@@ -191,8 +194,26 @@ String toTitleCase(String text) {
     });
   }
 
+ void checkConnectivity() async {
+  // Check for network connectivity
+  var connectivityResult = await (Connectivity().checkConnectivity());
+  if (connectivityResult == ConnectivityResult.none) {
+    // No network connectivity, display a toast message
+    Fluttertoast.showToast(
+      msg: "Please check your internet connection and try again",
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.black,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+    return;
+  }
+ }
+
  Future<void> getWeather() async {
   
+    checkConnectivity();
     if (latitude != null && longitude != null) {
     // Use the user's current location
     try {
@@ -310,7 +331,10 @@ void _getLastSearchedCity() async {
  setState(() {
  city = prefs.getString('lastSearchedCity');
  });
- getWeather();
+ await getWeather();
+   setState(() {
+    isLoading = false;
+  });
 }
 
 void _saveLastSearchedCity(String cityName) async {
@@ -407,6 +431,7 @@ Widget build(BuildContext context) {
           onPressed: () {
             setState(() {
               searchBarVisible = true;
+              _saveLastSearchedCity('');
              // latitude = null;
               // longitude = null;
             });
@@ -725,30 +750,38 @@ FontWeight.bold)),
 
                 
               ] else ...[
+                if (isLoading!=true) ...[
                 // display a message asking the user to enter a city name
                 Center(child:
 Column(mainAxisAlignment:
 MainAxisAlignment.center, children:[
-Icon(Icons.search, size:
-120),
-SizedBox(height:
-16),
-Text('Enter a valid city name to get started', style:
-Theme.of(context).textTheme.headline6, textAlign:
-TextAlign.center),
+Icon(Icons.search, size:120),
+SizedBox(height:16),
+Text('Enter a valid city name to get started', style:Theme.of(context).textTheme.headline6, textAlign:TextAlign.center),
+      SizedBox(height: 16),
+      Text('or', style: Theme.of(context).textTheme.headline6, textAlign: TextAlign.center),
+      SizedBox(height: 16),
+      Text('Use GPS to get weather of your current location', style:Theme.of(context).textTheme.headline6, textAlign:TextAlign.center),
 ]),)
               ],
+              ],
               if (errorMessage != null)
-                Text('$errorMessage', style:
-TextStyle(color:
-Colors.red, fontWeight:
-FontWeight.bold))
+                Text('$errorMessage', style:TextStyle(color:Colors.red, fontWeight:FontWeight.bold)),
+
+    if (isLoading)
+        Container(
+         // color: Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white,
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
+        ),
             ],
           ),
         ),
       ),
     ),
   );
+
 }
 
  }

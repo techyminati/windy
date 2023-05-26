@@ -43,6 +43,8 @@ dependencies:
   home_widget: ^0.2.1
   weather_icons: ^3.0.0-nullsafety.x
   location: ^4.3.0
+  connectivity: ^3.0.6
+  fluttertoast: ^8.0.8
 
 
 
