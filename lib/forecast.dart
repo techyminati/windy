@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:weather_icons/weather_icons.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ForecastPage extends StatefulWidget {
   final double? lat;
@@ -21,7 +22,7 @@ class ForecastPage extends StatefulWidget {
 }
 
 class _ForecastPageState extends State<ForecastPage> {
-  String apiKey = '105d997a8a1977cb138167503eb7afa1';
+  String apiKey = dotenv.env['API_KEY']!;
   List<dynamic> forecastData = [];
 
   String toTitleCase(String text) {

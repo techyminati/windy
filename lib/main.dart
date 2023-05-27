@@ -10,13 +10,15 @@ import 'package:weather_icons/weather_icons.dart';
 import 'package:flutter/services.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:windy/about.dart';
 import 'package:windy/forecast.dart';
 
 
-
-
-void main() => runApp(MyApp());
+Future main() async {
+  await dotenv.load(fileName: ".env");
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
  @override
@@ -77,7 +79,7 @@ class MyHomePage extends StatefulWidget {
 
 }
 class _MyHomePageState extends State<MyHomePage> {
- String apiKey = '';
+ String apiKey = dotenv.env['API_KEY']!;
  String? city;
  double? temperature;
  double? highTemp; // new variable to store high temperature
