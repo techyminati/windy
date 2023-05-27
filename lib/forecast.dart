@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:weather_icons/weather_icons.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:windy/key.dart';
 
 class ForecastPage extends StatefulWidget {
   final double? lat;
@@ -22,7 +23,6 @@ class ForecastPage extends StatefulWidget {
 }
 
 class _ForecastPageState extends State<ForecastPage> {
-  String apiKey = dotenv.env['API_KEY']!;
   List<dynamic> forecastData = [];
 
   String toTitleCase(String text) {

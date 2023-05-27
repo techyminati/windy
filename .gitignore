@@ -44,5 +44,4 @@ app.*.map.json
 /android/app/release
 
 # API key
-.env
-/assets/.env
+/lib/key.dart
