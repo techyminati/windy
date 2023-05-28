@@ -682,7 +682,7 @@ Column(crossAxisAlignment:
 CrossAxisAlignment.center,children:[
 Text('Feels like',style:
 Theme.of(context).textTheme.headline6),SizedBox(height:
-8),Text('${feels_like?.round()}°C',style:
+8),Text('${isCelsius ? feels_like?.round() : (feels_like! * 9 / 5 + 32).round()}°${isCelsius ? 'C' : 'F'}',style:
 Theme.of(context).textTheme.headline5?.copyWith(fontWeight:
 FontWeight.bold)),],),),),),
                   Expanded(child:
