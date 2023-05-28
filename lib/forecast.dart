@@ -58,8 +58,12 @@ class _ForecastPageState extends State<ForecastPage> {
 
 Widget getWeatherIcon(String description) {
 
-  if (description.contains('Rain') || description.contains('Moderate Rain') || description.contains('Light Rain')) {
-    return BoxedIcon(WeatherIcons.rain, size: 90);
+  if (description.contains('Heavy Intensity Rain')) {
+    return BoxedIcon(WeatherIcons.rain_wind, size: 127);
+  } else if (description.contains('Moderate Rain')) {
+    return BoxedIcon(WeatherIcons.rain, size: 127);
+  } else if (description.contains('Light Rain') || description.contains('Drizzle') || description.contains('Showers')) {
+    return BoxedIcon(WeatherIcons.showers, size: 127);
   } else if (description.contains('Cloud') || description.contains('overcast Clouds') || description.contains('Scattered Clouds')) {
     return BoxedIcon(WeatherIcons.day_cloudy, size: 90);
   } else if (description.contains('Wind')) {

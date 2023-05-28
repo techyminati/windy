@@ -14,6 +14,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:windy/about.dart';
 import 'package:windy/forecast.dart';
 import 'package:windy/key.dart';
+import 'package:windy/settings.dart';
 
 
 void main() async {
@@ -69,16 +70,16 @@ colorScheme: ColorScheme.dark(),
 
 class MyHomePage extends StatefulWidget {
  MyHomePage({Key? key, required this.title}) : super(key: key);
-  static final GlobalKey<_MyHomePageState> _key = GlobalKey<_MyHomePageState>();
+  static final GlobalKey<MyHomePageState> _key = GlobalKey<MyHomePageState>();
 
-  static _MyHomePageState? of(BuildContext context) => _key.currentState;
+  static MyHomePageState? of(BuildContext context) => _key.currentState;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  MyHomePageState createState() => MyHomePageState();
  late final String title;
 
 }
-class _MyHomePageState extends State<MyHomePage> {
+class MyHomePageState extends State<MyHomePage> {
  String? city;
  double? temperature;
  double? highTemp; // new variable to store high temperature
@@ -102,10 +103,14 @@ class _MyHomePageState extends State<MyHomePage> {
  TextEditingController cityController = TextEditingController();
  String? errorMessage;
  bool searchBarVisible = false;
+ bool isCelsius = true;
+ bool isKilometersPerHour = true;
+ bool isMillibars = true;
  double? windSpeed;
  int? windDirection;
  Duration animationDuration = Duration(milliseconds: 950);
  final ScrollController _scrollController = ScrollController();
+
  // GlobalKey<AnimatedIconState> _weatherIconKey = GlobalKey();
 
 
@@ -348,8 +353,12 @@ Widget getWeatherIcon(String description) {
   bool isDaytime = now.isAfter(DateTime.fromMillisecondsSinceEpoch(sunrise! * 1000)) &&
       now.isBefore(DateTime.fromMillisecondsSinceEpoch(sunset! * 1000));
 
-  if (description.contains('Rain') || description.contains('Moderate Rain') || description.contains('Light Rain')) {
+   if (description.contains('Heavy Intensity Rain')) {
+    return BoxedIcon(WeatherIcons.rain_wind, size: 127);
+  } else if (description.contains('Moderate Rain')) {
     return BoxedIcon(WeatherIcons.rain, size: 127);
+  } else if (description.contains('Light Rain') || description.contains('Drizzle') || description.contains('Showers')) {
+    return BoxedIcon(WeatherIcons.showers, size: 127);
   } else if (description.contains('Cloud') || description.contains('overcast Clouds') || description.contains('Scattered Clouds')) {
     return BoxedIcon(isDaytime ? WeatherIcons.day_cloudy : WeatherIcons.night_alt_cloudy, size: 127);
   } else if (description.contains('Wind')) {
@@ -501,7 +510,17 @@ decoration: BoxDecoration(
     }
   },
 ), */
-
+ListTile(
+  title: Text('Settings', style: TextStyle(fontSize: 18)),
+  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+  leading: Icon(Icons.settings),
+  onTap: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SettingsPage(homePageState: this, onSettingsChanged: () => setState(() {}))),
+    );
+  },
+),
       ListTile(
         title: Text('About', style: TextStyle(fontSize: 18)),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -588,7 +607,7 @@ Theme.of(context).textTheme.headline4?.copyWith(fontSize:
                 getWeatherIcon(description ?? ''),
                 SizedBox(height:
 32),
-                Text('${temperature?.round()}°C', style:
+                Text('${isCelsius ? temperature?.round() : (temperature! * 9 / 5 + 32).round()}°${isCelsius ? 'C' : 'F'}', style:
 Theme.of(context).textTheme.headline4?.copyWith(fontSize:
 58)),
 /*
@@ -632,7 +651,7 @@ Column(crossAxisAlignment:
 CrossAxisAlignment.center,children:[
 Text('Pressure',style:
 Theme.of(context).textTheme.headline6),SizedBox(height:
-8),Text('$pressure hPa',style:
+8),Text('${isMillibars ? pressure : (pressure! / 33.864).round()} ${isMillibars ? 'hPa' : 'inHg'}',style:
 Theme.of(context).textTheme.headline5?.copyWith(fontWeight:
 FontWeight.bold)),],),),),)
                 ]),
@@ -679,7 +698,7 @@ FontWeight.bold)),],
             children: [
               Text('Winds (${getCardinalDirection(windDirection)})', style: Theme.of(context).textTheme.headline6),
               SizedBox(height: 8),
-              Text('${(windSpeed! * 3.6).round()} km/h', style: Theme.of(context).textTheme.headline5?.copyWith(fontWeight: FontWeight.bold)),
+              Text('${isKilometersPerHour ? (windSpeed! * 3.6).round() : (windSpeed! * 2.237).round()} ${isKilometersPerHour ? 'km/h' : 'mph'}', style: Theme.of(context).textTheme.headline5?.copyWith(fontWeight: FontWeight.bold)),
               //SizedBox(height: 8),
              // Text('Direction: ${getCardinalDirection(windDirection)}', style:Theme.of(context).textTheme.headline6),
             ],
