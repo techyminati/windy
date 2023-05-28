@@ -38,6 +38,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 setState(() {
                   widget.homePageState.isCelsius = newValue == 'Celsius';
                   widget.onSettingsChanged();
+                  widget.homePageState.savePreferences();
                 });
               },
             ),
@@ -56,6 +57,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 setState(() {
                   widget.homePageState.isKilometersPerHour = newValue == 'Kilometers per hour';
                   widget.onSettingsChanged();
+                  widget.homePageState.savePreferences();
                 });
               },
             ),
@@ -74,6 +76,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 setState(() {
                   widget.homePageState.isMillibars = newValue == 'Millibars';
                   widget.onSettingsChanged();
+                  widget.homePageState.savePreferences();
                 });
               },
             ),

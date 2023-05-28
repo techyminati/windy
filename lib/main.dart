@@ -178,6 +178,21 @@ void updateWeatherWithCurrentLocation() async {
   }
 }
 
+Future<void> loadPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isCelsius = prefs.getBool('isCelsius') ?? true;
+      isKilometersPerHour = prefs.getBool('isKilometersPerHour') ?? true;
+      isMillibars = prefs.getBool('isMillibars') ?? true;
+    });
+  }
+
+  Future<void> savePreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isCelsius', isCelsius);
+    prefs.setBool('isKilometersPerHour', isKilometersPerHour);
+    prefs.setBool('isMillibars', isMillibars);
+  }
 
 String toTitleCase(String text) {
   return text
@@ -400,6 +415,7 @@ Widget getWeatherIcon(String description) {
 @override
 void initState() {
   super.initState();
+  loadPreferences();
   _getLastSearchedCity();
   _scrollController.addListener(() {
     if (_scrollController.offset > 200) {
