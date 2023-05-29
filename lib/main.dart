@@ -250,6 +250,30 @@ String toTitleCase(String text) {
   setState(() {
     aqi = aqiData['list'][0]['main']['aqi'];
   });
+  if (response.statusCode == 200) {
+ var data = jsonDecode(response.body);
+ http.Response onecall = await http.get(Uri.parse(
+    'https://api.openweathermap.org/data/3.0/onecall?lat=${data['coord']['lat']}&lon=${data['coord']['lon']}&exclude=minutely,hourly&appid=$apiKey&units=metric'));
+  if (onecall.statusCode == 200) {
+    var onedata = jsonDecode(onecall.body);
+    //Map<String, dynamic> onedata = jsonDecode(response.body);
+ // List<dynamic> daily = onedata['daily'];
+  //Map<String, dynamic> tempp = daily[0]['temp'];
+     // lowTemp  = tempp['min'];
+   setState(() {
+    lowTemp = onedata['daily'][0]['temp']['min'];
+    double temps = data['main']['temp'];
+    double ht = onedata['daily'][0]['temp']['max'];
+    if (temps > ht)
+    {
+      highTemp = temps;
+    }
+    else {
+    highTemp = onedata['daily'][0]['temp']['max'];
+   }
+    });
+  }
+}
 }
  setState(() {
  temperature = data['main']['temp'];
@@ -266,8 +290,6 @@ String toTitleCase(String text) {
  windSpeed = data['wind']['speed'];
  windDirection = data['wind']['deg'];
  cloudCoverage = data['clouds']['all'];
- highTemp = data['main']['temp_max']; 
- lowTemp = data['main']['temp_min'];
  city = name;
 _saveLastSearchedCity(name!);
  
@@ -305,7 +327,32 @@ _saveLastSearchedCity(name!);
   setState(() {
     aqi = aqiData['list'][0]['main']['aqi'];
   });
+
+  if (response.statusCode == 200) {
+ var data = jsonDecode(response.body);
+ http.Response onecall = await http.get(Uri.parse(
+    'https://api.openweathermap.org/data/3.0/onecall?lat=${data['coord']['lat']}&lon=${data['coord']['lon']}&exclude=minutely,hourly&appid=$apiKey&units=metric'));
+  if (onecall.statusCode == 200) {
+    var onedata = jsonDecode(onecall.body);
+    //Map<String, dynamic> onedata = jsonDecode(response.body);
+ // List<dynamic> daily = onedata['daily'];
+  //Map<String, dynamic> tempp = daily[0]['temp'];
+     // lowTemp  = tempp['min'];
+   setState(() {
+    lowTemp = onedata['daily'][0]['temp']['min'];
+    double temps = data['main']['temp'];
+    double ht = onedata['daily'][0]['temp']['max'];
+    if (temps > ht)
+    {
+      highTemp = temps;
+    }
+    else {
+    highTemp = onedata['daily'][0]['temp']['max'];
+   }
+    });
+  }
 }
+  }
  setState(() {
  temperature = data['main']['temp'];
  description = toTitleCase(data['weather'][0]['description']);
@@ -321,8 +368,6 @@ _saveLastSearchedCity(name!);
  windSpeed = data['wind']['speed'];
  windDirection = data['wind']['deg'];
  cloudCoverage = data['clouds']['all'];
- highTemp = data['main']['temp_max']; 
- lowTemp = data['main']['temp_min'];
  // latitude = lat;
   // longitude = lon;
 _saveLastSearchedCity(name!);
@@ -626,7 +671,7 @@ Theme.of(context).textTheme.headline4?.copyWith(fontSize:
                 Text('${isCelsius ? temperature?.round() : (temperature! * 9 / 5 + 32).round()}°${isCelsius ? 'C' : 'F'}', style:
 Theme.of(context).textTheme.headline4?.copyWith(fontSize:
 58)),
-/*
+
 Row(
   mainAxisAlignment: MainAxisAlignment.center,
   children: [
@@ -634,7 +679,7 @@ Row(
     SizedBox(width: 16),
     Text('L: ${lowTemp?.round()}°C', style: TextStyle(fontSize: 18)),
   ],
-), */
+), 
                 Center(child:
 Text('$description', style:
 Theme.of(context).textTheme.headline6?.copyWith(fontSize:
