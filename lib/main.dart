@@ -671,15 +671,16 @@ Theme.of(context).textTheme.headline4?.copyWith(fontSize:
                 Text('${isCelsius ? temperature?.round() : (temperature! * 9 / 5 + 32).round()}°${isCelsius ? 'C' : 'F'}', style:
 Theme.of(context).textTheme.headline4?.copyWith(fontSize:
 58)),
-
+SizedBox(height: 3), 
 Row(
   mainAxisAlignment: MainAxisAlignment.center,
   children: [
-    Text('H: ${isCelsius ? highTemp?.round() : (highTemp! * 9 / 5 + 32).round()}°${isCelsius ? 'C' : 'F'}', style: TextStyle(fontSize: 18)),
+    Text('H: ${isCelsius ? highTemp?.round() : (highTemp! * 9 / 5 + 32).round()}°${isCelsius ? 'C' : 'F'}', style: TextStyle(fontSize: 17)),
     SizedBox(width: 16),
-    Text('L: ${isCelsius ? lowTemp?.round() : (lowTemp! * 9 / 5 + 32).round()}°${isCelsius ? 'C' : 'F'}', style: TextStyle(fontSize: 18)),
+    Text('L: ${isCelsius ? lowTemp?.round() : (lowTemp! * 9 / 5 + 32).round()}°${isCelsius ? 'C' : 'F'}', style: TextStyle(fontSize: 17)),
   ],
 ), 
+SizedBox(height: 5), 
                 Center(child:
 Text('$description', style:
 Theme.of(context).textTheme.headline6?.copyWith(fontSize:
