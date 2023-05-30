@@ -13,6 +13,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:windy/about.dart';
 import 'package:windy/forecast.dart';
+import 'package:windy/hourly.dart';
 import 'package:windy/key.dart';
 import 'package:windy/settings.dart';
 
@@ -542,6 +543,23 @@ decoration: BoxDecoration(
                 ],
               ),
             ),
+            ListTile(
+        title: Text('Hourly Weather Forecast', style: TextStyle(fontSize: 18)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        leading: Icon(Icons.access_time),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HourlyForecastPage(
+                lat: lat,
+                lon: lon,
+                apiKey: apiKey,
+              ),
+            ),
+          );
+        },
+      ),
       ListTile(
         title: Text('7-Day Weather Forecast', style: TextStyle(fontSize: 18)),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
