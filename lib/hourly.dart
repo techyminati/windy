@@ -3,8 +3,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:weather_icons/weather_icons.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:windy/key.dart';
 
 class HourlyForecastPage extends StatefulWidget {
   final double? lat;
@@ -37,7 +35,7 @@ class _HourlyForecastPageState extends State<HourlyForecastPage> {
   void getHourlyWeather() async {
     try {
       http.Response response = await http.get(Uri.parse(
-          'https://api.openweathermap.org/data/2.5/onecall?lat=${widget.lat}&lon=${widget.lon}&exclude=current,minutely,daily&appid=$apiKey&units=metric'));
+          'https://api.openweathermap.org/data/2.5/onecall?lat=${widget.lat}&lon=${widget.lon}&exclude=current,minutely,daily&appid=${widget.apiKey}&units=metric'));
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
         setState(() {
@@ -54,11 +52,11 @@ class _HourlyForecastPageState extends State<HourlyForecastPage> {
 Widget getWeatherIcon(String description) {
 
   if (description.contains('Heavy Intensity Rain')) {
-    return BoxedIcon(WeatherIcons.rain_wind, size: 127);
+    return BoxedIcon(WeatherIcons.rain_wind, size: 90);
   } else if (description.contains('Moderate Rain')) {
-    return BoxedIcon(WeatherIcons.rain, size: 127);
+    return BoxedIcon(WeatherIcons.rain, size: 90);
   } else if (description.contains('Light Rain') || description.contains('Drizzle') || description.contains('Showers')) {
-    return BoxedIcon(WeatherIcons.showers, size: 127);
+    return BoxedIcon(WeatherIcons.showers, size: 90);
   } else if (description.contains('Cloud') || description.contains('overcast Clouds') || description.contains('Scattered Clouds')) {
     return BoxedIcon(WeatherIcons.day_cloudy, size: 90);
   } else if (description.contains('Wind')) {
@@ -117,7 +115,7 @@ String formatDateTime(int timestamp) {
 
     var formattedTime = DateFormat.jm().format(date);
 
-    return '$formattedDate $formattedTime';
+    return '$formattedDate - $formattedTime';
 }
 
 String formatTemperature(double temperature) {
@@ -194,11 +192,18 @@ Widget build(BuildContext context) {
 return Scaffold(
 appBar:
 
-AppBar(title:Text("Hourly Forecast"),
-foregroundColor: Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(bottom: Radius.circular(16))),
-      elevation: 0,
-      backgroundColor: Colors.transparent,
+AppBar(title:
+Text("Hourly Forecast"),
+foregroundColor:
+Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white,
+shape:
+RoundedRectangleBorder(borderRadius:
+BorderRadius.vertical(bottom:
+Radius.circular(16))),
+elevation:
+0,
+backgroundColor:
+Colors.transparent,
 ),
 
 body:
@@ -221,7 +226,7 @@ margin:
 EdgeInsets.all(8),
 child:
 Padding(padding:
-EdgeInsets.all(16),child:
+EdgeInsets.all(8),child:
 Column(crossAxisAlignment:
 CrossAxisAlignment.start,
 children:[
@@ -233,10 +238,13 @@ Row(children:[
 Expanded(child:
 Column(crossAxisAlignment:
 CrossAxisAlignment.start,
+
 children:[
+//  SizedBox(width:3),
 Text(formatTemperature(hourly['temp']),style:
 Theme.of(context).textTheme.headline5?.copyWith(fontWeight:
 FontWeight.bold)),
+// SizedBox(width:8),
 Text(description),
 ],),),
 getWeatherIcon(description),
