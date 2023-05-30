@@ -238,7 +238,6 @@ Row(children:[
 Expanded(child:
 Column(crossAxisAlignment:
 CrossAxisAlignment.start,
-
 children:[
 //  SizedBox(width:3),
 Text(formatTemperature(hourly['temp']),style:

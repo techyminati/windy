@@ -81,6 +81,13 @@ class _SettingsPageState extends State<SettingsPage> {
               },
             ),
           ),
+          Container(
+            alignment: Alignment.bottomCenter,
+            padding: EdgeInsets.all(16),
+            child: Text(
+              'Powered by OpenWeatherMap API',
+              style: Theme.of(context).textTheme.caption,
+            ),)
         ],
       ),
     );
