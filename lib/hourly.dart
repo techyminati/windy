@@ -35,7 +35,7 @@ class _HourlyForecastPageState extends State<HourlyForecastPage> {
   void getHourlyWeather() async {
     try {
       http.Response response = await http.get(Uri.parse(
-          'https://api.openweathermap.org/data/2.5/onecall?lat=${widget.lat}&lon=${widget.lon}&exclude=current,minutely,daily&appid=${widget.apiKey}&units=metric'));
+          'https://api.openweathermap.org/data/3.0/onecall?lat=${widget.lat}&lon=${widget.lon}&exclude=current,minutely,daily&appid=${widget.apiKey}&units=metric'));
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
         setState(() {

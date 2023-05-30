@@ -41,7 +41,7 @@ class _ForecastPageState extends State<ForecastPage> {
   void getForecast() async {
     try {
       http.Response response = await http.get(Uri.parse(
-          'https://api.openweathermap.org/data/2.5/onecall?lat=${widget.lat}&lon=${widget.lon}&exclude=current,minutely,hourly,alerts&appid=$apiKey&units=metric'));
+          'https://api.openweathermap.org/data/3.0/onecall?lat=${widget.lat}&lon=${widget.lon}&exclude=current,minutely,hourly,alerts&appid=$apiKey&units=metric'));
 
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
