@@ -1,5 +1,5 @@
 name: windy
-description: A new Flutter project.
+description: Weather app inspired by material design, featuring a minimalistic and modern user interface.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -31,13 +31,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  http: ^0.13.4
+  http: ^1.0.0
   flutter_dotenv: ^5.0.1
   geolocator: ^7.3.0
   flutter_svg: ^0.22.0
   flutter_bloc: ^8.0.0
   equatable: ^2.0.0
-  google_fonts: ^2.1.0
+  google_fonts: ^4.0.5
   shared_preferences: ^2.1.1
   intl: ^0.17.0
   home_widget: ^0.2.1
