@@ -49,16 +49,27 @@ class _HourlyForecastPageState extends State<HourlyForecastPage> {
     }
   }
 
-Widget getWeatherIcon(String description) {
-
+Widget getWeatherIcon(String description, int timestamp) {
+  var date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+  var hour = date.hour;
   if (description.contains('Heavy Intensity Rain')) {
     return BoxedIcon(WeatherIcons.rain_wind, size: 90);
   } else if (description.contains('Moderate Rain')) {
     return BoxedIcon(WeatherIcons.rain, size: 90);
-  } else if (description.contains('Light Rain') || description.contains('Drizzle') || description.contains('Showers')) {
+  } else if (description.contains('Light Rain') ||
+      description.contains('Drizzle') ||
+      description.contains('Showers')) {
     return BoxedIcon(WeatherIcons.showers, size: 90);
-  } else if (description.contains('Cloud') || description.contains('overcast Clouds') || description.contains('Scattered Clouds')) {
-    return BoxedIcon(WeatherIcons.day_cloudy, size: 90);
+  } else if (description.contains('Cloud') ||
+      description.contains('Overcast Clouds') ||
+      description.contains('Scattered Clouds')) {
+                if (hour >= 19 || hour < 6)
+        {
+          return BoxedIcon(WeatherIcons.night_cloudy, size: 90);
+        }
+        else {
+          return BoxedIcon(WeatherIcons.day_cloudy, size: 90);
+        }
   } else if (description.contains('Wind')) {
     return BoxedIcon(WeatherIcons.strong_wind, size: 90);
   } else if (description.contains('Snow')) {
@@ -85,13 +96,19 @@ Widget getWeatherIcon(String description) {
     return BoxedIcon(WeatherIcons.strong_wind, size: 90);
   } else if (description.contains('Tornado')) {
     return BoxedIcon(WeatherIcons.tornado, size: 90);
-  } else if (description.contains('Clear Sky') || description.contains('Sun')) { // changed from 'sun' to 'clear sky'
-    return BoxedIcon(WeatherIcons.day_sunny, size: 90);
-   }
-   else {
-     return BoxedIcon(WeatherIcons.day_sunny_overcast, size: 90);
-   }
+  } else if (description.contains('Clear Sky') || description.contains('Sun')) {
+        if (hour >= 19 || hour < 6)
+        {
+          return BoxedIcon(WeatherIcons.night_clear, size: 90);
+        }
+        else {
+          return BoxedIcon(WeatherIcons.day_sunny, size: 90);
+        }
+  } else {
+    return BoxedIcon(WeatherIcons.day_sunny_overcast, size: 90);
+  }
 }
+
 
 String formatTime(int timestamp) {
     var date = DateTime.fromMillisecondsSinceEpoch(timestamp *1000);
@@ -246,6 +263,6 @@ FontWeight.bold)),
 // SizedBox(width:8),
 Text(description),
 ],),),
-getWeatherIcon(description),
+getWeatherIcon(description, hourly['dt']),
 ],),
 ],),),);},),);}}
