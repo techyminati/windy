@@ -63,9 +63,9 @@ Widget getWeatherIcon(String description, int timestamp) {
   } else if (description.contains('Cloud') ||
       description.contains('Overcast Clouds') ||
       description.contains('Scattered Clouds')) {
-                if (hour >= 19 || hour < 6)
+            if (hour >= 19 || hour < 6)
         {
-          return BoxedIcon(WeatherIcons.night_cloudy, size: 90);
+          return BoxedIcon(WeatherIcons.night_alt_cloudy, size: 90);
         }
         else {
           return BoxedIcon(WeatherIcons.day_cloudy, size: 90);
@@ -105,7 +105,13 @@ Widget getWeatherIcon(String description, int timestamp) {
           return BoxedIcon(WeatherIcons.day_sunny, size: 90);
         }
   } else {
-    return BoxedIcon(WeatherIcons.day_sunny_overcast, size: 90);
+            if (hour >= 19 || hour < 6)
+        {
+          return BoxedIcon(WeatherIcons.night_alt_partly_cloudy, size: 90);
+        }
+        else {
+          return BoxedIcon(WeatherIcons.day_sunny_overcast, size: 90);
+        }
   }
 }
 
