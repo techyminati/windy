@@ -16,8 +16,7 @@ Windy is a material design inspired weather app built with Flutter. It provides 
 
 ## Screenshots
 
-![image](https://github.com/techyminati/windy/assets/63485082/5939d548-37a4-4dd1-827c-95331d0e8828)
-![image](https://github.com/techyminati/windy/assets/63485082/9c7e7cd0-7925-4b57-9e83-b0036e5534cf)
+![image](https://github.com/techyminati/windy/assets/63485082/987e72e3-8d64-448e-aab6-44f71d61e079)
 
 
 ## Installing
