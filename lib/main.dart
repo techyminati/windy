@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -110,6 +111,8 @@ class MyHomePageState extends State<MyHomePage> {
   int? windDirection;
   Duration animationDuration = Duration(milliseconds: 950);
   final ScrollController _scrollController = ScrollController();
+    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    
 
   // GlobalKey<AnimatedIconState> _weatherIconKey = GlobalKey();
 
@@ -473,6 +476,8 @@ class MyHomePageState extends State<MyHomePage> {
     super.initState();
     loadPreferences();
     _getLastSearchedCity();
+    _initializeNotifications();
+    showNotification();
     _scrollController.addListener(() {
       if (_scrollController.offset > 200) {
         setState(() {
@@ -484,6 +489,44 @@ class MyHomePageState extends State<MyHomePage> {
         });
       }
     });
+  }
+    void _initializeNotifications() async {
+    const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('ic_launcher');
+    
+    final InitializationSettings initializationSettings = InitializationSettings(
+      android: initializationSettingsAndroid,
+    );
+
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onDidReceiveNotificationResponse: (response) async {
+      await selectNotification(response.payload);
+    });
+  }
+
+  Future selectNotification(String? payload) async {
+    if (payload != null) {
+      debugPrint('Notification payload: $payload');
+    }
+    // Handle the notification action like opening the app, etc.
+  }
+
+  Future<void> showNotification() async {
+   // var time = Time(8, 0, 0); // 8:00:00 am
+    const AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
+        'weather_channel_id', 'weather_channel', importance: Importance.high, priority: Priority.high, );
+
+    const NotificationDetails platformChannelSpecifics = NotificationDetails(
+      android: androidPlatformChannelSpecifics,
+    );
+
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      'Weather Update',
+      'Today\'s weather is XYZ.',
+      //time,
+      platformChannelSpecifics,
+      payload: 'Weather Notification',
+    );
   }
 
   @override

@@ -34,7 +34,7 @@ dependencies:
   http: ^1.0.0
   flutter_dotenv: ^5.0.1
   geolocator: ^7.3.0
-  flutter_svg: ^0.22.0
+  flutter_svg: ^2.0.7
   flutter_bloc: ^8.0.0
   equatable: ^2.0.0
   google_fonts: ^4.0.5
@@ -45,6 +45,8 @@ dependencies:
   location: ^4.3.0
   connectivity: ^3.0.6
   fluttertoast: ^8.0.8
+  xml: ^6.1.0
+  flutter_local_notifications: ^14.1.1
 
 
 
