@@ -17,8 +17,11 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Settings'),
-        foregroundColor: Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(bottom: Radius.circular(16))),
+        foregroundColor: Theme.of(context).brightness == Brightness.light
+            ? Colors.black
+            : Colors.white,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(16))),
         elevation: 0,
         backgroundColor: Colors.transparent,
       ),
@@ -28,7 +31,8 @@ class _SettingsPageState extends State<SettingsPage> {
             title: Text('Temperature'),
             subtitle: DropdownButton<String>(
               value: widget.homePageState.isCelsius ? 'Celsius' : 'Fahrenheit',
-              items: <String>['Celsius', 'Fahrenheit'].map<DropdownMenuItem<String>>((String value) {
+              items: <String>['Celsius', 'Fahrenheit']
+                  .map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value),
@@ -46,8 +50,11 @@ class _SettingsPageState extends State<SettingsPage> {
           ListTile(
             title: Text('Wind Speed'),
             subtitle: DropdownButton<String>(
-              value: widget.homePageState.isKilometersPerHour ? 'Kilometers per hour' : 'Miles per hour',
-              items: <String>['Kilometers per hour', 'Miles per hour'].map<DropdownMenuItem<String>>((String value) {
+              value: widget.homePageState.isKilometersPerHour
+                  ? 'Kilometers per hour'
+                  : 'Miles per hour',
+              items: <String>['Kilometers per hour', 'Miles per hour']
+                  .map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value),
@@ -55,7 +62,8 @@ class _SettingsPageState extends State<SettingsPage> {
               }).toList(),
               onChanged: (String? newValue) {
                 setState(() {
-                  widget.homePageState.isKilometersPerHour = newValue == 'Kilometers per hour';
+                  widget.homePageState.isKilometersPerHour =
+                      newValue == 'Kilometers per hour';
                   widget.onSettingsChanged();
                   widget.homePageState.savePreferences();
                 });
@@ -65,8 +73,11 @@ class _SettingsPageState extends State<SettingsPage> {
           ListTile(
             title: Text('Pressure'),
             subtitle: DropdownButton<String>(
-              value: widget.homePageState.isMillibars ? 'Millibars' : 'Inches of mercury',
-              items: <String>['Millibars', 'Inches of mercury'].map<DropdownMenuItem<String>>((String value) {
+              value: widget.homePageState.isMillibars
+                  ? 'Millibars'
+                  : 'Inches of mercury',
+              items: <String>['Millibars', 'Inches of mercury']
+                  .map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value),
@@ -87,7 +98,8 @@ class _SettingsPageState extends State<SettingsPage> {
             child: Text(
               'Powered by OpenWeatherMap API',
               style: Theme.of(context).textTheme.caption,
-            ),)
+            ),
+          )
         ],
       ),
     );

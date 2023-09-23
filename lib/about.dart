@@ -4,15 +4,19 @@ import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:home_widget/home_widget.dart';
+
 class AboutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-      foregroundColor: Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(bottom: Radius.circular(16))),
-      elevation: 0,
-      backgroundColor: Colors.transparent,
+        foregroundColor: Theme.of(context).brightness == Brightness.light
+            ? Colors.black
+            : Colors.white,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(16))),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
         title: Text('About'),
       ),
       body: Center(

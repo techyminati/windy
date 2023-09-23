@@ -49,226 +49,205 @@ class _HourlyForecastPageState extends State<HourlyForecastPage> {
     }
   }
 
-Widget getWeatherIcon(String description, int timestamp) {
-  var date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
-  var hour = date.hour;
-  if (description.contains('Heavy Intensity Rain')) {
-    return BoxedIcon(WeatherIcons.rain_wind, size: 90);
-  } else if (description.contains('Moderate Rain')) {
-    return BoxedIcon(WeatherIcons.rain, size: 90);
-  } else if (description.contains('Light Rain') ||
-      description.contains('Drizzle') ||
-      description.contains('Showers')) {
-    return BoxedIcon(WeatherIcons.showers, size: 90);
-  } else if (description.contains('Cloud') ||
-      description.contains('Overcast Clouds') ||
-      description.contains('Scattered Clouds')) {
-            if (hour >= 19 || hour < 6)
-        {
-          return BoxedIcon(WeatherIcons.night_alt_cloudy, size: 90);
-        }
-        else {
-          return BoxedIcon(WeatherIcons.day_cloudy, size: 90);
-        }
-  } else if (description.contains('Wind')) {
-    return BoxedIcon(WeatherIcons.strong_wind, size: 90);
-  } else if (description.contains('Snow')) {
-    return BoxedIcon(WeatherIcons.snow, size: 90);
-  } else if (description.contains('Haze')) {
-    return BoxedIcon(WeatherIcons.day_haze, size: 90);
-  } else if (description.contains('Thunderstorm')) {
-    return BoxedIcon(WeatherIcons.thunderstorm, size: 90);
-  } else if (description.contains('Drizzle')) {
-    return BoxedIcon(WeatherIcons.sprinkle, size: 90);
-  } else if (description.contains('Fog')) {
-    return BoxedIcon(WeatherIcons.day_fog, size: 90);
-  } else if (description.contains('Mist')) {
-    return BoxedIcon(WeatherIcons.day_fog, size: 90);
-  } else if (description.contains('Smoke')) {
-    return BoxedIcon(WeatherIcons.smoke, size: 90);
-  } else if (description.contains('Dust')) {
-    return BoxedIcon(WeatherIcons.dust, size: 90);
-  } else if (description.contains('Sand')) {
-    return BoxedIcon(WeatherIcons.sandstorm, size: 90);
-  } else if (description.contains('Ash')) {
-    return BoxedIcon(WeatherIcons.volcano, size: 90);
-  } else if (description.contains('Squall')) {
-    return BoxedIcon(WeatherIcons.strong_wind, size: 90);
-  } else if (description.contains('Tornado')) {
-    return BoxedIcon(WeatherIcons.tornado, size: 90);
-  } else if (description.contains('Clear Sky') || description.contains('Sun')) {
-        if (hour >= 19 || hour < 6)
-        {
-          return BoxedIcon(WeatherIcons.night_clear, size: 90);
-        }
-        else {
-          return BoxedIcon(WeatherIcons.day_sunny, size: 90);
-        }
-  } else {
-            if (hour >= 19 || hour < 6)
-        {
-          return BoxedIcon(WeatherIcons.night_alt_partly_cloudy, size: 90);
-        }
-        else {
-          return BoxedIcon(WeatherIcons.day_sunny_overcast, size: 90);
-        }
+  Widget getWeatherIcon(String description, int timestamp) {
+    var date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+    var hour = date.hour;
+    if (description.contains('Heavy Intensity Rain')) {
+      return BoxedIcon(WeatherIcons.rain_wind, size: 90);
+    } else if (description.contains('Moderate Rain')) {
+      return BoxedIcon(WeatherIcons.rain, size: 90);
+    } else if (description.contains('Light Rain') ||
+        description.contains('Drizzle') ||
+        description.contains('Showers')) {
+      return BoxedIcon(WeatherIcons.showers, size: 90);
+    } else if (description.contains('Cloud') ||
+        description.contains('Overcast Clouds') ||
+        description.contains('Scattered Clouds')) {
+      if (hour >= 19 || hour < 6) {
+        return BoxedIcon(WeatherIcons.night_alt_cloudy, size: 90);
+      } else {
+        return BoxedIcon(WeatherIcons.day_cloudy, size: 90);
+      }
+    } else if (description.contains('Wind')) {
+      return BoxedIcon(WeatherIcons.strong_wind, size: 90);
+    } else if (description.contains('Snow')) {
+      return BoxedIcon(WeatherIcons.snow, size: 90);
+    } else if (description.contains('Haze')) {
+      return BoxedIcon(WeatherIcons.day_haze, size: 90);
+    } else if (description.contains('Thunderstorm')) {
+      return BoxedIcon(WeatherIcons.thunderstorm, size: 90);
+    } else if (description.contains('Drizzle')) {
+      return BoxedIcon(WeatherIcons.sprinkle, size: 90);
+    } else if (description.contains('Fog')) {
+      return BoxedIcon(WeatherIcons.day_fog, size: 90);
+    } else if (description.contains('Mist')) {
+      return BoxedIcon(WeatherIcons.day_fog, size: 90);
+    } else if (description.contains('Smoke')) {
+      return BoxedIcon(WeatherIcons.smoke, size: 90);
+    } else if (description.contains('Dust')) {
+      return BoxedIcon(WeatherIcons.dust, size: 90);
+    } else if (description.contains('Sand')) {
+      return BoxedIcon(WeatherIcons.sandstorm, size: 90);
+    } else if (description.contains('Ash')) {
+      return BoxedIcon(WeatherIcons.volcano, size: 90);
+    } else if (description.contains('Squall')) {
+      return BoxedIcon(WeatherIcons.strong_wind, size: 90);
+    } else if (description.contains('Tornado')) {
+      return BoxedIcon(WeatherIcons.tornado, size: 90);
+    } else if (description.contains('Clear Sky') ||
+        description.contains('Sun')) {
+      if (hour >= 19 || hour < 6) {
+        return BoxedIcon(WeatherIcons.night_clear, size: 90);
+      } else {
+        return BoxedIcon(WeatherIcons.day_sunny, size: 90);
+      }
+    } else {
+      if (hour >= 19 || hour < 6) {
+        return BoxedIcon(WeatherIcons.night_alt_partly_cloudy, size: 90);
+      } else {
+        return BoxedIcon(WeatherIcons.day_sunny_overcast, size: 90);
+      }
+    }
   }
-}
 
-
-String formatTime(int timestamp) {
-    var date = DateTime.fromMillisecondsSinceEpoch(timestamp *1000);
+  String formatTime(int timestamp) {
+    var date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
     var formattedTime = DateFormat.jm().format(date);
 
     return formattedTime;
-}
+  }
 
-String formatDate(int timestamp) {
-    var date = DateTime.fromMillisecondsSinceEpoch(timestamp *1000);
+  String formatDate(int timestamp) {
+    var date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
     var formattedDate = DateFormat.MMMd().format(date);
 
     return formattedDate;
-}
+  }
 
-String formatDateTime(int timestamp) {
-
-    var date = DateTime.fromMillisecondsSinceEpoch(timestamp *1000);
+  String formatDateTime(int timestamp) {
+    var date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
 
     var formattedDate = DateFormat.MMMd().format(date);
 
     var formattedTime = DateFormat.jm().format(date);
 
     return '$formattedDate - $formattedTime';
-}
+  }
 
-String formatTemperature(double temperature) {
-
+  String formatTemperature(double temperature) {
     var temp = temperature.round();
 
     return '$temp°C';
-}
+  }
 
-String formatWindSpeed(double speed) {
-
+  String formatWindSpeed(double speed) {
     var windSpeed = speed.round();
 
     return '$windSpeed m/s';
-}
+  }
 
-String formatHumidity(int humidity) {
-
+  String formatHumidity(int humidity) {
     return '$humidity%';
-}
+  }
 
-String formatPressure(int pressure) {
-
+  String formatPressure(int pressure) {
     return '$pressure hPa';
-}
+  }
 
-String formatUvi(double uvi) {
-
+  String formatUvi(double uvi) {
     var uvIndex = uvi.round();
 
     return uvIndex.toString();
-}
+  }
 
-String formatClouds(int clouds) {
-
+  String formatClouds(int clouds) {
     return '$clouds%';
-}
+  }
 
-String formatVisibility(int visibility) {
-
-    var visibiltyInKm = visibility /1000;
+  String formatVisibility(int visibility) {
+    var visibiltyInKm = visibility / 1000;
 
     return '$visibiltyInKm km';
-}
+  }
 
-String formatDewPoint(double dewPoint) {
-
+  String formatDewPoint(double dewPoint) {
     var dewPt = dewPoint.round();
 
     return '$dewPt°C';
-}
+  }
 
-String formatPop(double pop) {
-
-    var probabilityOfPrecipitation = pop *100;
+  String formatPop(double pop) {
+    var probabilityOfPrecipitation = pop * 100;
 
     probabilityOfPrecipitation.round();
 
     return '$probabilityOfPrecipitation%';
-}
+  }
 
-String getCardinalDirection(int deg) {
+  String getCardinalDirection(int deg) {
+    final directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+    final index = ((deg + 22.5) / 45).floor() % 8;
 
-        final directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
-        final index = ((deg +22.5)/45).floor() %8;
+    return directions[index];
+  }
 
-        return directions[index];
-}
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Hourly Forecast"),
+        foregroundColor: Theme.of(context).brightness == Brightness.light
+            ? Colors.black
+            : Colors.white,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(16))),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+      ),
+      body: ListView.builder(
+        itemCount: hourlyData.length,
+        itemBuilder: (context, index) {
+          var hourly = hourlyData[index];
+          var time = DateTime.fromMillisecondsSinceEpoch(hourly['dt'] * 1000);
+          var temperature = hourly['temp'].round();
+          var description = toTitleCase(hourly['weather'][0]['description']);
 
-
-@override
-Widget build(BuildContext context) {
-
-return Scaffold(
-appBar:
-
-AppBar(title:
-Text("Hourly Forecast"),
-foregroundColor:
-Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white,
-shape:
-RoundedRectangleBorder(borderRadius:
-BorderRadius.vertical(bottom:
-Radius.circular(16))),
-elevation:
-0,
-backgroundColor:
-Colors.transparent,
-),
-
-body:
-ListView.builder(
-itemCount:
-hourlyData.length,
-itemBuilder:
-(context,index){
-var hourly =
-hourlyData[index];
-var time =
-DateTime.fromMillisecondsSinceEpoch(hourly['dt']*1000);
-var temperature =
-hourly['temp'].round();
-var description =
-toTitleCase(hourly['weather'][0]['description']);
-
-return Card(
-margin:
-EdgeInsets.all(8),
-child:
-Padding(padding:
-EdgeInsets.all(8),child:
-Column(crossAxisAlignment:
-CrossAxisAlignment.start,
-children:[
-Text(formatDateTime(hourly['dt']),style:
-Theme.of(context).textTheme.headline6),
-SizedBox(height:
-8),
-Row(children:[
-Expanded(child:
-Column(crossAxisAlignment:
-CrossAxisAlignment.start,
-children:[
+          return Card(
+            margin: EdgeInsets.all(8),
+            child: Padding(
+              padding: EdgeInsets.all(8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(formatDateTime(hourly['dt']),
+                      style: Theme.of(context).textTheme.headline6),
+                  SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
 //  SizedBox(width:3),
-Text(formatTemperature(hourly['temp']),style:
-Theme.of(context).textTheme.headline5?.copyWith(fontWeight:
-FontWeight.bold)),
+                            Text(formatTemperature(hourly['temp']),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline5
+                                    ?.copyWith(fontWeight: FontWeight.bold)),
 // SizedBox(width:8),
-Text(description),
-],),),
-getWeatherIcon(description, hourly['dt']),
-],),
-],),),);},),);}}
+                            Text(description),
+                          ],
+                        ),
+                      ),
+                      getWeatherIcon(description, hourly['dt']),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
