@@ -529,11 +529,11 @@ class MyHomePageState extends State<MyHomePage> {
     const NotificationDetails platformChannelSpecifics = NotificationDetails(
       android: androidPlatformChannelSpecifics,
     );
-    await flutterLocalNotificationsPlugin.showDailyAtTime(
+    await flutterLocalNotificationsPlugin.periodicallyShow(
       0,
       '${isCelsius ? temperature?.round() : (temperature! * 9 / 5 + 32).round()}°${isCelsius ? 'C' : 'F'} in $city',
       '$description',
-      time,
+      RepeatInterval.hourly,
       platformChannelSpecifics,
       payload: 'Weather Notification',
       //icon: '@mipmap/your_icon_name',
