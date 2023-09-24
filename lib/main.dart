@@ -523,10 +523,13 @@ class MyHomePageState extends State<MyHomePage> {
     const NotificationDetails platformChannelSpecifics = NotificationDetails(
       android: androidPlatformChannelSpecifics,
     );
+      // Lets Define the notification title and body here
+     String notificationTitle = '${isCelsius ? temperature?.round() : (temperature! * 9 / 5 + 32).round()}°${isCelsius ? 'C' : 'F'} in $city';
+     String notificationBody = '$description';
     await flutterLocalNotificationsPlugin.showDailyAtTime(
       0,
-      '${isCelsius ? temperature?.round() : (temperature ! * 9 / 5 + 32).round()}°${isCelsius ? 'C' : 'F'} in $city',
-      '$description',
+      notificationTitle,
+      notificationBody,
       time,
       platformChannelSpecifics,
       payload: 'Weather Notification',
