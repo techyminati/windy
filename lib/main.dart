@@ -111,8 +111,8 @@ class MyHomePageState extends State<MyHomePage> {
   int? windDirection;
   Duration animationDuration = Duration(milliseconds: 950);
   final ScrollController _scrollController = ScrollController();
-    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
 
   // GlobalKey<AnimatedIconState> _weatherIconKey = GlobalKey();
 
@@ -488,13 +488,16 @@ class MyHomePageState extends State<MyHomePage> {
         });
       }
     });
- //   _initializeNotifications();
+    //   _initializeNotifications();
   }
-    void _initializeNotifications() async {
+
+  void _initializeNotifications() async {
     /// await getWeather();
-    const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('ic_stat');
-    
-    final InitializationSettings initializationSettings = InitializationSettings(
+    const AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('ic_stat');
+
+    final InitializationSettings initializationSettings =
+        InitializationSettings(
       android: initializationSettingsAndroid,
     );
 
@@ -502,7 +505,7 @@ class MyHomePageState extends State<MyHomePage> {
         onDidReceiveNotificationResponse: (response) async {
       await selectNotification(response.payload);
     });
-        showNotification();
+    showNotification();
   }
 
   Future selectNotification(String? payload) async {
@@ -511,25 +514,25 @@ class MyHomePageState extends State<MyHomePage> {
     }
     // Handle the notification action like opening the app, etc.
   }
-  
+
   Future<void> showNotification() async {
     // double temperature = this.temperature!;
-   // String? city = name;
+    // String? city = name;
     var time = Time(8, 0, 0); // 8:00:00 am
 
-    const AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        'weather_channel_id', 'weather_channel', importance: Importance.high, priority: Priority.high, icon: '@mipmap/ic_launcher' );
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails('weather_channel_id', 'weather_channel',
+            importance: Importance.high,
+            priority: Priority.high,
+            icon: '@mipmap/ic_launcher');
 
     const NotificationDetails platformChannelSpecifics = NotificationDetails(
       android: androidPlatformChannelSpecifics,
     );
-      // Lets Define the notification title and body here
-     String notificationTitle = '${isCelsius ? temperature?.round() : (temperature! * 9 / 5 + 32).round()}°${isCelsius ? 'C' : 'F'} in $city';
-     String notificationBody = '$description';
     await flutterLocalNotificationsPlugin.showDailyAtTime(
       0,
-      notificationTitle,
-      notificationBody,
+      '${isCelsius ? temperature?.round() : (temperature! * 9 / 5 + 32).round()}°${isCelsius ? 'C' : 'F'} in $city',
+      '$description',
       time,
       platformChannelSpecifics,
       payload: 'Weather Notification',
