@@ -381,6 +381,7 @@ class MyHomePageState extends State<MyHomePage> {
         errorMessage = 'Error: $e';
       });
     }
+    _initializeNotifications();
   }
 
   Future<void> _handleRefresh() async {
@@ -476,8 +477,6 @@ class MyHomePageState extends State<MyHomePage> {
     super.initState();
     loadPreferences();
     _getLastSearchedCity();
-    _initializeNotifications();
-    showNotification();
     _scrollController.addListener(() {
       if (_scrollController.offset > 200) {
         setState(() {
@@ -489,9 +488,11 @@ class MyHomePageState extends State<MyHomePage> {
         });
       }
     });
+ //   _initializeNotifications();
   }
     void _initializeNotifications() async {
-    const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('ic_launcher');
+    /// await getWeather();
+    const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('ic_stat');
     
     final InitializationSettings initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
@@ -501,6 +502,7 @@ class MyHomePageState extends State<MyHomePage> {
         onDidReceiveNotificationResponse: (response) async {
       await selectNotification(response.payload);
     });
+        showNotification();
   }
 
   Future selectNotification(String? payload) async {
@@ -509,23 +511,26 @@ class MyHomePageState extends State<MyHomePage> {
     }
     // Handle the notification action like opening the app, etc.
   }
-
+  
   Future<void> showNotification() async {
+    //double temperature = this.temperature!;
+   // String? city = name;
    // var time = Time(8, 0, 0); // 8:00:00 am
+
     const AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        'weather_channel_id', 'weather_channel', importance: Importance.high, priority: Priority.high, );
+        'weather_channel_id', 'weather_channel', importance: Importance.high, priority: Priority.high, icon: '@mipmap/ic_launcher' );
 
     const NotificationDetails platformChannelSpecifics = NotificationDetails(
       android: androidPlatformChannelSpecifics,
     );
-
     await flutterLocalNotificationsPlugin.show(
       0,
-      'Weather Update',
-      'Today\'s weather is XYZ.',
+      '${isCelsius ? temperature?.round() : (temperature ! * 9 / 5 + 32).round()}°${isCelsius ? 'C' : 'F'} in $city',
+      '$description',
       //time,
       platformChannelSpecifics,
       payload: 'Weather Notification',
+      //icon: '@mipmap/your_icon_name',
     );
   }
 
