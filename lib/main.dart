@@ -513,9 +513,9 @@ class MyHomePageState extends State<MyHomePage> {
   }
   
   Future<void> showNotification() async {
-    //double temperature = this.temperature!;
+    // double temperature = this.temperature!;
    // String? city = name;
-   // var time = Time(8, 0, 0); // 8:00:00 am
+    var time = Time(8, 0, 0); // 8:00:00 am
 
     const AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
         'weather_channel_id', 'weather_channel', importance: Importance.high, priority: Priority.high, icon: '@mipmap/ic_launcher' );
@@ -523,11 +523,11 @@ class MyHomePageState extends State<MyHomePage> {
     const NotificationDetails platformChannelSpecifics = NotificationDetails(
       android: androidPlatformChannelSpecifics,
     );
-    await flutterLocalNotificationsPlugin.show(
+    await flutterLocalNotificationsPlugin.showDailyAtTime(
       0,
       '${isCelsius ? temperature?.round() : (temperature ! * 9 / 5 + 32).round()}°${isCelsius ? 'C' : 'F'} in $city',
       '$description',
-      //time,
+      time,
       platformChannelSpecifics,
       payload: 'Weather Notification',
       //icon: '@mipmap/your_icon_name',
