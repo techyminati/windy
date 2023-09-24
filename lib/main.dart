@@ -493,29 +493,25 @@ class MyHomePageState extends State<MyHomePage> {
     //   _initializeNotifications();
   }
 Future<void> requestNotificationPermission() async {
+  // final status = await permission_handler.Permission.notification.status;
   final status = await permission_handler.Permission.notification.request();
+  
   if (status.isGranted) {
-    Fluttertoast.showToast(
-  msg: "Notification Permissions Granted",
-  toastLength: Toast.LENGTH_SHORT, // Duration for which the toast will be visible
-  gravity: ToastGravity.BOTTOM,   // Position of the toast (e.g., bottom)
-  timeInSecForIosWeb: 1,         // Duration for iOS and web
-  backgroundColor: Colors.black.withOpacity(0.7), // Background color
-  textColor: Colors.white,       // Text color
-);
+    // Notification permissions are already granted, no need to show a toast.
   } else if (status.isDenied) {
     // Permission is denied. You can prompt the user to open app settings.
-        Fluttertoast.showToast(
-  msg: "Notification Permissions Not Granted",
-  toastLength: Toast.LENGTH_SHORT, // Duration for which the toast will be visible
-  gravity: ToastGravity.BOTTOM,   // Position of the toast (e.g., bottom)
-  timeInSecForIosWeb: 1,         // Duration for iOS and web
-  backgroundColor: Colors.black.withOpacity(0.7), // Background color
-  textColor: Colors.white,       // Text color
-);
-    permission_handler.openAppSettings(); // Opens the app settings where the user can manually grant permissions.
-  }
+    Fluttertoast.showToast(
+      msg: "Notification Permissions Not Granted",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.black.withOpacity(0.7),
+      textColor: Colors.white,
+    );
+    // permission_handler.openAppSettings();
+  } 
 }
+
   void _initializeNotifications() async {
     /// await getWeather();
     const AndroidInitializationSettings initializationSettingsAndroid =
