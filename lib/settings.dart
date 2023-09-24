@@ -38,8 +38,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   widget.homePageState.savePreferences();
                 });
               },
-              activeColor: Colors.white, // Change the active color
-              activeTrackColor: Colors.white.withOpacity(0.7), // Change the active track color
+              activeColor: const Color.fromARGB(255, 203, 201, 201), // Change the active color
+              activeTrackColor: const Color.fromARGB(255, 203, 201, 201).withOpacity(0.7), // Change the active track color
               inactiveThumbColor: Colors.grey, // Change the inactive thumb color
               inactiveTrackColor: Colors.grey.withOpacity(0.7), // Change the inactive track color
             ),
