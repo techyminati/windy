@@ -12,7 +12,8 @@ import 'package:flutter/services.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:permission_handler/permission_handler.dart' as permission_handler;
+import 'package:permission_handler/permission_handler.dart'
+    as permission_handler;
 import 'package:windy/about.dart';
 import 'package:windy/forecast.dart';
 import 'package:windy/hourly.dart';
@@ -492,25 +493,26 @@ class MyHomePageState extends State<MyHomePage> {
     });
     //   _initializeNotifications();
   }
-Future<void> requestNotificationPermission() async {
-  // final status = await permission_handler.Permission.notification.status;
-  final status = await permission_handler.Permission.notification.request();
-  
-  if (status.isGranted) {
-    // Notification permissions are already granted, no need to show a toast.
-  } else if (status.isDenied) {
-    // Permission is denied. You can prompt the user to open app settings.
-    Fluttertoast.showToast(
-      msg: "Notification Permissions Not Granted",
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 1,
-      backgroundColor: Colors.black.withOpacity(0.7),
-      textColor: Colors.white,
-    );
-    // permission_handler.openAppSettings();
-  } 
-}
+
+  Future<void> requestNotificationPermission() async {
+    // final status = await permission_handler.Permission.notification.status;
+    final status = await permission_handler.Permission.notification.request();
+
+    if (status.isGranted) {
+      // Notification permissions are already granted, no need to show a toast.
+    } else if (status.isDenied) {
+      // Permission is denied. You can prompt the user to open app settings.
+      Fluttertoast.showToast(
+        msg: "Notification Permissions Not Granted",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black.withOpacity(0.7),
+        textColor: Colors.white,
+      );
+      // permission_handler.openAppSettings();
+    }
+  }
 
   void _initializeNotifications() async {
     /// await getWeather();
