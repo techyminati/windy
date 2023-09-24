@@ -541,28 +541,28 @@ class MyHomePageState extends State<MyHomePage> {
 
   Future<void> showNotification() async {
     if (isHourlyNotificationEnabled) {
-    // double temperature = this.temperature!;
-    // String? city = name;
-    var time = Time(8, 0, 0); // 8:00:00 am
+      // double temperature = this.temperature!;
+      // String? city = name;
+      var time = Time(8, 0, 0); // 8:00:00 am
 
-    const AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails('weather_channel_id', 'weather_channel',
-            importance: Importance.high,
-            priority: Priority.high,
-            icon: '@mipmap/ic_launcher');
+      const AndroidNotificationDetails androidPlatformChannelSpecifics =
+          AndroidNotificationDetails('weather_channel_id', 'weather_channel',
+              importance: Importance.high,
+              priority: Priority.high,
+              icon: '@mipmap/ic_launcher');
 
-    const NotificationDetails platformChannelSpecifics = NotificationDetails(
-      android: androidPlatformChannelSpecifics,
-    );
-    await flutterLocalNotificationsPlugin.periodicallyShow(
-      0,
-      '${isCelsius ? temperature?.round() : (temperature! * 9 / 5 + 32).round()}°${isCelsius ? 'C' : 'F'} in $city',
-      '$description',
-      RepeatInterval.hourly,
-      platformChannelSpecifics,
-      payload: 'Weather Notification',
-      //icon: '@mipmap/your_icon_name',
-    );
+      const NotificationDetails platformChannelSpecifics = NotificationDetails(
+        android: androidPlatformChannelSpecifics,
+      );
+      await flutterLocalNotificationsPlugin.periodicallyShow(
+        0,
+        '${isCelsius ? temperature?.round() : (temperature! * 9 / 5 + 32).round()}°${isCelsius ? 'C' : 'F'} in $city',
+        '$description',
+        RepeatInterval.hourly,
+        platformChannelSpecifics,
+        payload: 'Weather Notification',
+        //icon: '@mipmap/your_icon_name',
+      );
     }
   }
 
