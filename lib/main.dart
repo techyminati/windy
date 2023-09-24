@@ -12,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:permission_handler/permission_handler.dart' as permission_handler;
 import 'package:windy/about.dart';
 import 'package:windy/forecast.dart';
 import 'package:windy/hourly.dart';
@@ -477,6 +478,7 @@ class MyHomePageState extends State<MyHomePage> {
     super.initState();
     loadPreferences();
     _getLastSearchedCity();
+    requestNotificationPermission();
     _scrollController.addListener(() {
       if (_scrollController.offset > 200) {
         setState(() {
@@ -490,7 +492,30 @@ class MyHomePageState extends State<MyHomePage> {
     });
     //   _initializeNotifications();
   }
-
+Future<void> requestNotificationPermission() async {
+  final status = await permission_handler.Permission.notification.request();
+  if (status.isGranted) {
+    Fluttertoast.showToast(
+  msg: "Notification Permissions Granted",
+  toastLength: Toast.LENGTH_SHORT, // Duration for which the toast will be visible
+  gravity: ToastGravity.BOTTOM,   // Position of the toast (e.g., bottom)
+  timeInSecForIosWeb: 1,         // Duration for iOS and web
+  backgroundColor: Colors.black.withOpacity(0.7), // Background color
+  textColor: Colors.white,       // Text color
+);
+  } else if (status.isDenied) {
+    // Permission is denied. You can prompt the user to open app settings.
+        Fluttertoast.showToast(
+  msg: "Notification Permissions Not Granted",
+  toastLength: Toast.LENGTH_SHORT, // Duration for which the toast will be visible
+  gravity: ToastGravity.BOTTOM,   // Position of the toast (e.g., bottom)
+  timeInSecForIosWeb: 1,         // Duration for iOS and web
+  backgroundColor: Colors.black.withOpacity(0.7), // Background color
+  textColor: Colors.white,       // Text color
+);
+    permission_handler.openAppSettings(); // Opens the app settings where the user can manually grant permissions.
+  }
+}
   void _initializeNotifications() async {
     /// await getWeather();
     const AndroidInitializationSettings initializationSettingsAndroid =
