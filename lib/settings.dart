@@ -27,6 +27,23 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       body: ListView(
         children: [
+                    ListTile(
+            title: Text('Enable Hourly Weather Alerts'),
+            trailing: Switch(
+              value: widget.homePageState.isHourlyNotificationEnabled,
+              onChanged: (value) {
+                setState(() {
+                  widget.homePageState.isHourlyNotificationEnabled = value;
+                  widget.onSettingsChanged();
+                  widget.homePageState.savePreferences();
+                });
+              },
+              activeColor: Colors.white, // Change the active color
+              activeTrackColor: Colors.white.withOpacity(0.7), // Change the active track color
+              inactiveThumbColor: Colors.grey, // Change the inactive thumb color
+              inactiveTrackColor: Colors.grey.withOpacity(0.7), // Change the inactive track color
+            ),
+          ),
           ListTile(
             title: Text('Temperature'),
             subtitle: DropdownButton<String>(

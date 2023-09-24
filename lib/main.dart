@@ -109,6 +109,7 @@ class MyHomePageState extends State<MyHomePage> {
   bool isCelsius = true;
   bool isKilometersPerHour = true;
   bool isMillibars = true;
+  bool isHourlyNotificationEnabled = true;
   double? windSpeed;
   int? windDirection;
   Duration animationDuration = Duration(milliseconds: 950);
@@ -539,6 +540,7 @@ class MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> showNotification() async {
+    if (isHourlyNotificationEnabled) {
     // double temperature = this.temperature!;
     // String? city = name;
     var time = Time(8, 0, 0); // 8:00:00 am
@@ -561,6 +563,7 @@ class MyHomePageState extends State<MyHomePage> {
       payload: 'Weather Notification',
       //icon: '@mipmap/your_icon_name',
     );
+    }
   }
 
   @override
