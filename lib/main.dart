@@ -190,6 +190,7 @@ class MyHomePageState extends State<MyHomePage> {
       isCelsius = prefs.getBool('isCelsius') ?? true;
       isKilometersPerHour = prefs.getBool('isKilometersPerHour') ?? true;
       isMillibars = prefs.getBool('isMillibars') ?? true;
+      isHourlyNotificationEnabled = prefs.getBool('isHourlyNotificationEnabled') ?? true;
     });
   }
 
@@ -198,6 +199,7 @@ class MyHomePageState extends State<MyHomePage> {
     prefs.setBool('isCelsius', isCelsius);
     prefs.setBool('isKilometersPerHour', isKilometersPerHour);
     prefs.setBool('isMillibars', isMillibars);
+    prefs.setBool('isHourlyNotificationEnabled', isHourlyNotificationEnabled);
   }
 
   String toTitleCase(String text) {
