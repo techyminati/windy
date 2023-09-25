@@ -386,7 +386,9 @@ class MyHomePageState extends State<MyHomePage> {
         errorMessage = 'Error: $e';
       });
     }
+    if (isHourlyNotificationEnabled) {
     _initializeNotifications();
+    }
   }
 
   Future<void> _handleRefresh() async {
