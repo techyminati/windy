@@ -190,7 +190,8 @@ class MyHomePageState extends State<MyHomePage> {
       isCelsius = prefs.getBool('isCelsius') ?? true;
       isKilometersPerHour = prefs.getBool('isKilometersPerHour') ?? true;
       isMillibars = prefs.getBool('isMillibars') ?? true;
-      isHourlyNotificationEnabled = prefs.getBool('isHourlyNotificationEnabled') ?? true;
+      isHourlyNotificationEnabled =
+          prefs.getBool('isHourlyNotificationEnabled') ?? true;
     });
   }
 
@@ -386,9 +387,7 @@ class MyHomePageState extends State<MyHomePage> {
         errorMessage = 'Error: $e';
       });
     }
-    if (isHourlyNotificationEnabled) {
-    _initializeNotifications();
-    }
+      _initializeNotifications();
   }
 
   Future<void> _handleRefresh() async {
@@ -567,6 +566,9 @@ class MyHomePageState extends State<MyHomePage> {
         payload: 'Weather Notification',
         //icon: '@mipmap/your_icon_name',
       );
+    } else {
+      // Cancel the hourly notification if it's not enabled
+      await flutterLocalNotificationsPlugin.cancel(0);
     }
   }
 
