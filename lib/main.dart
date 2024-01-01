@@ -412,71 +412,69 @@ class MyHomePageState extends State<MyHomePage> {
   }
 
   Widget getWeatherIcon(String description) {
-    DateTime now = DateTime.now();
-    bool isDaytime =
-        now.isAfter(DateTime.fromMillisecondsSinceEpoch(sunrise! * 1000)) &&
-            now.isBefore(DateTime.fromMillisecondsSinceEpoch(sunset! * 1000));
+  DateTime now = DateTime.now();
+  bool isDaytime =
+      now.isAfter(DateTime.fromMillisecondsSinceEpoch(sunrise! * 1000)) &&
+          now.isBefore(DateTime.fromMillisecondsSinceEpoch(sunset! * 1000));
 
-    if (description.contains('Heavy Intensity Rain')) {
+  switch (description) {
+    case 'Heavy Intensity Rain':
       return BoxedIcon(WeatherIcons.rain_wind, size: 127);
-    } else if (description.contains('Moderate Rain')) {
+    case 'Moderate Rain':
       return BoxedIcon(WeatherIcons.rain, size: 127);
-    } else if (description.contains('Light Rain') ||
-        description.contains('Drizzle') ||
-        description.contains('Showers')) {
+    case 'Light Rain':
+    case 'Drizzle':
+    case 'Showers':
       return BoxedIcon(WeatherIcons.showers, size: 127);
-    } else if (description.contains('Cloud') ||
-        description.contains('overcast Clouds') ||
-        description.contains('Scattered Clouds')) {
+    case 'Cloud':
+    case 'overcast Clouds':
+    case 'Scattered Clouds':
       return BoxedIcon(
           isDaytime ? WeatherIcons.day_cloudy : WeatherIcons.night_alt_cloudy,
           size: 127);
-    } else if (description.contains('Wind')) {
+    case 'Wind':
       return BoxedIcon(WeatherIcons.strong_wind, size: 127);
-    } else if (description.contains('Snow')) {
+    case 'Snow':
       return BoxedIcon(WeatherIcons.snow, size: 127);
-    } else if (description.contains('Haze')) {
+    case 'Haze':
       return BoxedIcon(
           isDaytime ? WeatherIcons.day_haze : WeatherIcons.night_fog,
           size: 127);
-    } else if (description.contains('Thunderstorm')) {
+    case 'Thunderstorm':
       return BoxedIcon(WeatherIcons.thunderstorm, size: 127);
-    } else if (description.contains('Drizzle')) {
+    case 'Drizzle':
       return BoxedIcon(WeatherIcons.sprinkle, size: 127);
-    } else if (description.contains('Fog')) {
+    case 'Fog':
+    case 'Mist':
       return BoxedIcon(
           isDaytime ? WeatherIcons.day_fog : WeatherIcons.night_fog,
           size: 127);
-    } else if (description.contains('Mist')) {
-      return BoxedIcon(
-          isDaytime ? WeatherIcons.day_fog : WeatherIcons.night_fog,
-          size: 127);
-    } else if (description.contains('Smoke')) {
+    case 'Smoke':
       return BoxedIcon(WeatherIcons.smoke, size: 127);
-    } else if (description.contains('Dust')) {
+    case 'Dust':
       return BoxedIcon(WeatherIcons.dust, size: 127);
-    } else if (description.contains('Sand')) {
+    case 'Sand':
       return BoxedIcon(WeatherIcons.sandstorm, size: 127);
-    } else if (description.contains('Ash')) {
+    case 'Ash':
       return BoxedIcon(WeatherIcons.volcano, size: 127);
-    } else if (description.contains('Squall')) {
+    case 'Squall':
       return BoxedIcon(WeatherIcons.strong_wind, size: 127);
-    } else if (description.contains('Tornado')) {
+    case 'Tornado':
       return BoxedIcon(WeatherIcons.tornado, size: 127);
-    } else if (description.contains('Clear Sky') ||
-        description.contains('Sun')) {
-      // changed from 'sun' to 'clear sky'
+    case 'Clear Sky':
+    case 'Sun':
       return BoxedIcon(
           isDaytime ? WeatherIcons.day_sunny : WeatherIcons.night_clear,
           size: 127);
-    } else {
+    default:
       return BoxedIcon(
           isDaytime
               ? WeatherIcons.day_sunny_overcast
               : WeatherIcons.night_alt_partly_cloudy,
           size: 127);
-    }
   }
+}
+
 
   @override
   void initState() {
