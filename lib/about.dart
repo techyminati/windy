@@ -39,7 +39,7 @@ class AboutPage extends StatelessWidget {
             SizedBox(height: 8),
             // Display app version
             Text(
-              'Version 1.0.2',
+              'Version 1.0.3',
               style: Theme.of(context).textTheme.caption,
             ),
             Spacer(),
