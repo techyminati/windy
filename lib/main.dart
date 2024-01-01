@@ -387,7 +387,7 @@ class MyHomePageState extends State<MyHomePage> {
         errorMessage = 'Error: $e';
       });
     }
-      _initializeNotifications();
+    _initializeNotifications();
   }
 
   Future<void> _handleRefresh() async {
@@ -412,69 +412,68 @@ class MyHomePageState extends State<MyHomePage> {
   }
 
   Widget getWeatherIcon(String description) {
-  DateTime now = DateTime.now();
-  bool isDaytime =
-      now.isAfter(DateTime.fromMillisecondsSinceEpoch(sunrise! * 1000)) &&
-          now.isBefore(DateTime.fromMillisecondsSinceEpoch(sunset! * 1000));
+    DateTime now = DateTime.now();
+    bool isDaytime =
+        now.isAfter(DateTime.fromMillisecondsSinceEpoch(sunrise! * 1000)) &&
+            now.isBefore(DateTime.fromMillisecondsSinceEpoch(sunset! * 1000));
 
-  switch (description) {
-    case 'Heavy Intensity Rain':
-      return BoxedIcon(WeatherIcons.rain_wind, size: 127);
-    case 'Moderate Rain':
-      return BoxedIcon(WeatherIcons.rain, size: 127);
-    case 'Light Rain':
-    case 'Drizzle':
-    case 'Showers':
-      return BoxedIcon(WeatherIcons.showers, size: 127);
-    case 'Cloud':
-    case 'overcast Clouds':
-    case 'Scattered Clouds':
-      return BoxedIcon(
-          isDaytime ? WeatherIcons.day_cloudy : WeatherIcons.night_alt_cloudy,
-          size: 127);
-    case 'Wind':
-      return BoxedIcon(WeatherIcons.strong_wind, size: 127);
-    case 'Snow':
-      return BoxedIcon(WeatherIcons.snow, size: 127);
-    case 'Haze':
-      return BoxedIcon(
-          isDaytime ? WeatherIcons.day_haze : WeatherIcons.night_fog,
-          size: 127);
-    case 'Thunderstorm':
-      return BoxedIcon(WeatherIcons.thunderstorm, size: 127);
-    case 'Drizzle':
-      return BoxedIcon(WeatherIcons.sprinkle, size: 127);
-    case 'Fog':
-    case 'Mist':
-      return BoxedIcon(
-          isDaytime ? WeatherIcons.day_fog : WeatherIcons.night_fog,
-          size: 127);
-    case 'Smoke':
-      return BoxedIcon(WeatherIcons.smoke, size: 127);
-    case 'Dust':
-      return BoxedIcon(WeatherIcons.dust, size: 127);
-    case 'Sand':
-      return BoxedIcon(WeatherIcons.sandstorm, size: 127);
-    case 'Ash':
-      return BoxedIcon(WeatherIcons.volcano, size: 127);
-    case 'Squall':
-      return BoxedIcon(WeatherIcons.strong_wind, size: 127);
-    case 'Tornado':
-      return BoxedIcon(WeatherIcons.tornado, size: 127);
-    case 'Clear Sky':
-    case 'Sun':
-      return BoxedIcon(
-          isDaytime ? WeatherIcons.day_sunny : WeatherIcons.night_clear,
-          size: 127);
-    default:
-      return BoxedIcon(
-          isDaytime
-              ? WeatherIcons.day_sunny_overcast
-              : WeatherIcons.night_alt_partly_cloudy,
-          size: 127);
+    switch (description) {
+      case 'Heavy Intensity Rain':
+        return BoxedIcon(WeatherIcons.rain_wind, size: 127);
+      case 'Moderate Rain':
+        return BoxedIcon(WeatherIcons.rain, size: 127);
+      case 'Light Rain':
+      case 'Drizzle':
+      case 'Showers':
+        return BoxedIcon(WeatherIcons.showers, size: 127);
+      case 'Cloud':
+      case 'overcast Clouds':
+      case 'Scattered Clouds':
+        return BoxedIcon(
+            isDaytime ? WeatherIcons.day_cloudy : WeatherIcons.night_alt_cloudy,
+            size: 127);
+      case 'Wind':
+        return BoxedIcon(WeatherIcons.strong_wind, size: 127);
+      case 'Snow':
+        return BoxedIcon(WeatherIcons.snow, size: 127);
+      case 'Haze':
+        return BoxedIcon(
+            isDaytime ? WeatherIcons.day_haze : WeatherIcons.night_fog,
+            size: 127);
+      case 'Thunderstorm':
+        return BoxedIcon(WeatherIcons.thunderstorm, size: 127);
+      case 'Drizzle':
+        return BoxedIcon(WeatherIcons.sprinkle, size: 127);
+      case 'Fog':
+      case 'Mist':
+        return BoxedIcon(
+            isDaytime ? WeatherIcons.day_fog : WeatherIcons.night_fog,
+            size: 127);
+      case 'Smoke':
+        return BoxedIcon(WeatherIcons.smoke, size: 127);
+      case 'Dust':
+        return BoxedIcon(WeatherIcons.dust, size: 127);
+      case 'Sand':
+        return BoxedIcon(WeatherIcons.sandstorm, size: 127);
+      case 'Ash':
+        return BoxedIcon(WeatherIcons.volcano, size: 127);
+      case 'Squall':
+        return BoxedIcon(WeatherIcons.strong_wind, size: 127);
+      case 'Tornado':
+        return BoxedIcon(WeatherIcons.tornado, size: 127);
+      case 'Clear Sky':
+      case 'Sun':
+        return BoxedIcon(
+            isDaytime ? WeatherIcons.day_sunny : WeatherIcons.night_clear,
+            size: 127);
+      default:
+        return BoxedIcon(
+            isDaytime
+                ? WeatherIcons.day_sunny_overcast
+                : WeatherIcons.night_alt_partly_cloudy,
+            size: 127);
+    }
   }
-}
-
 
   @override
   void initState() {
